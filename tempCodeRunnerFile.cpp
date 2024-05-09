@@ -1,7 +1,4 @@
 #include <iostream>
-<<<<<<< Updated upstream
-using namespace std;    
-=======
 #include <graphics.h>
 #include <conio.h>
 #include "Game.h"
@@ -22,6 +19,7 @@ int main(){
 	     stage.home = 0;
         putimage(0,0,&gameImage);
         //按esc暂停不会写
+        putimage(0,0,&pauseImage);
         if (CoverButton.button_quit) 
         {
             closegraph();
@@ -40,6 +38,7 @@ int main(){
      {
         putimage(0,0,&gameImage);
         //按esc暂停不会写
+        putimage(0,0,&pauseImage);
         if (CoverButton.button_quit)
         {
             closegraph();
@@ -65,7 +64,6 @@ int main(){
     closegraph();
     return 0;
 }
->>>>>>> Stashed changes
 
 int main(){
     printf  ("hello world");
