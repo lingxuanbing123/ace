@@ -1,6 +1,7 @@
 #pragma once
 #include <time.h>
 //easyx
+#include <graphics.h>
 #define PI 3.14159265
 
 #define WIDTH 640
@@ -68,7 +69,7 @@ typedef struct NODE
     int y;          // y坐标
     int type;       // 种类
     int blood;      // 血量
-    int fullblood;  // manxue
+    int fullblood;  // 满血
     int x0;         // 保存子弹射出时候的位置
     int y0;
     double theta;
