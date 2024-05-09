@@ -98,7 +98,7 @@ typedef struct
     int down;
     int left;
     int right;
-} DIRECTION;
+} DIRECTION;           //方向结构体定义
 typedef struct Boom
 {
     int x;
@@ -109,36 +109,20 @@ typedef struct Boom
     struct Boom *next;
 } Boom;
 
-struct Pause
+
+struct Stage  //当前状态判定    使用0 1
 {
-    int i;
-    int j;
-    int k;
-    int l;
+    int pause;  //暂停
+    int game;  //游戏中
+    int level;  //关卡
 };
-struct Stage
+struct CoverButton    //按钮绘制 亮或者熄 使用0 1
 {
-    int pause;
-    int game;
-    int mainInterface;
-    int Countdown;
-    int rankinglist;
-    Pause Pause;
+    int button_back;
+    int button_level;
+    int button_quit;
 };
-struct CoverButton
-{
-    int button_blue;
-    int button_green;
-    int button_rankinglist;
-    int button_back2;
-};
-struct TIME
-{
-    clock_t Time;     // 从开始那一刻开始计时
-    clock_t Tpause;   // 总时停时间
-    clock_t Zawarudo; // 时停那一刻的时间
-    clock_t Resume;   // 回复按钮弹起那一刻的时间
-};
+
 struct FRAME
 {
     int f_total;
@@ -147,7 +131,6 @@ struct FRAME
     int f_pause;
 };
 extern FRAME Frame;
-extern TIME Tier;
 extern int score; // 得分
 typedef int SOUND;
 
