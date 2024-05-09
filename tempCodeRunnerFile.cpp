@@ -1,11 +1,11 @@
 #include <iostream>
 #include <graphics.h>
 #include <conio.h>
-
+#include "Game.h"
 int main(){
     IMAGE background;
-    initgraph(800, 900);
-    loadimage(&background, "D:\\git0\\ace\\rs\\background.bmp");
+    initgraph(WIDTH, HEIGHT);
+    loadimage(&background, "D:\\Git warehouse\\github\\ace\\rs\\background.bmp");
     putimage(0,0,&background);
     _getch();
     closegraph();
