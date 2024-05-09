@@ -1,8 +1,14 @@
 #include <iostream>
-#include <stdio.h>
-using namespace std;    
-
+#include <graphics.h>
+#include <conio.h>
+#include "Game.h"
 int main(){
-    printf  ("hello world");
+    IMAGE background;
+    initgraph(WIDTH, HEIGHT);
+    loadimage(&background, "D:\\Git warehouse\\github\\ace\\rs\\background.bmp");
+    putimage(0,0,&background);
+    _getch();
+    closegraph();
     return 0;
 }
+
