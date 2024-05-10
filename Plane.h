@@ -5,13 +5,19 @@
 class Plane
 {
 public:
-    int x = 650, y = 720; // 飞机初始坐标
-    int speed = 10;       // 飞机移动速度
-
-    Plane();                 // 构造函数
-    void draw();             // 绘制飞机
-    void move(char key_hit); // 移动飞机，根据按键响应
+    Plane(); // 构造函数
+    Plane(int x, int y, int speed);
+    void draw();         // 绘制飞机
+    void move(char key); // 移动飞机，根据按键响应
+    int &getX();
+    int &getY();
+    int &getSpeed();
 
 private:
-    COLORREF color; // 飞机颜色
+    COLORREF color = RGB(255, 0, 0); // 设置飞机颜色为红色; // 飞机颜色
+    int x = 680, y = 380, speed = 5;
+
+    /* protected:
+        int x, y;  // 飞机坐标
+        int speed; // 飞机速度 */
 };
