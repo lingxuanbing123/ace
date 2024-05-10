@@ -8,7 +8,8 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <graphics.h>
-
+#include <list>
+using namespace std;
 // esayx
 #include "Game.h"
 #include "Prop.h"
@@ -20,14 +21,9 @@
 
 #include "PlaneEnemy.h"
 #include "Operate.h"
-#include "Score.h"
 
-#pragma comment(lib, "MSIMG32.LIB")
-#pragma comment(lib, "Winmm.lib")
 
-int score; // 得分
-typedef int SOUND;
-
+//所有变量的定义
 Prop *prop;
 Boom *pBoom;
 Node *pBullet;   // 子弹
@@ -35,353 +31,316 @@ Node *pBullet_E; // 敌机子弹
 Node *pEnemy;    // 敌机
 Node *pMyself;   // 我机
 
-int num[10];  // 得分每一位数,用全局以方便清零
 int boss = 0; // 是否存在boss
-FRAME Frame;
 struct CoverButton CoverButton;
 struct Stage stage;
-double lct = 0; // 地图坐标
 
-double distance(double x1, double y1, double x2, double y2)
+
+Plane::Plane()
 {
-    return sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+    color = RGB(255, 0, 0); // 设置飞机颜色为红色
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
 }
-void RotateImage(IMAGE *pTo, IMAGE *pFrom, double rad)
+Plane::Plane(int x, int y, int speed){}
+
+Bullet::Bullet()
 {
-/*     IMAGE *pWorking = GetWorkingImage();
-    SetWorkingImage(pFrom);
-    int iWidth = getwidth();
-    int iHeight = getheight(); // 获取原图长宽
-    while (rad > 2 * PI)       // 化简弧度
-        rad -= 2 * PI;
-
-    double pad = rad; // 处理弧度
-    if (pad > PI / 2 && pad <= PI)
-    {
-        pad -= PI / 2;
-        pad = PI / 2 - pad;
-    }
-    else if (pad > PI && pad <= PI / 2 * 3)
-    {
-        pad -= PI;
-    }
-    else if (pad > PI / 2 * 3 && pad <= PI * 2)
-    {
-        pad -= PI / 2 * 3;
-        pad = PI / 2 - pad;
-    }
-
-    int tWidth = int(iWidth * cos(pad) + iHeight * sin(pad));
-    int tHeight = int(iHeight * cos(pad) + iWidth * sin(pad)); // 计算新图大小
-
-    int iMinX = -(iWidth / 2), iMinY = -(iHeight / 2);
-    int iMaxX = iMinX + iWidth, iMaxY = iMinY + iHeight; // 计算原图最小（大）坐标
-
-    int tMinX = -(tWidth / 2), tMinY = -(tHeight / 2);
-    int tMaxX = tMinX + tWidth, tMaxY = tMinY + tHeight; // 计算新图最小（大）坐标
-
-    setorigin(-iMinX, -iMinY); // 设置图片中心为原点
-
-    SetWorkingImage(NULL);
-    pTo->Resize(tWidth, tHeight); // 初始化新图
-
-    DWORD *dst = GetImageBuffer(pTo);
-    DWORD *src = GetImageBuffer(pFrom); // 获取新图、原图的缓冲区
-
-    SetWorkingImage(pTo);
-    for (int y1 = 0; y1 < tHeight; y1++)
-    {
-        for (int x1 = 0; x1 < tWidth; x1++)
-            dst[x1] = 0x00000000;
-        dst += tWidth;
-    }
-
-    SetWorkingImage(pWorking);
-    for (int y1 = 0; y1 < tHeight; y1++) 
-        dst -= tWidth;
-
-    for (int y1 = tMinY; y1 < tMaxY; y1++)
-    {
-        for (int x1 = tMinX; x1 < tMaxX; x1++)
-        {
-            int x = int(x1 * cos(rad) - y1 * sin(rad));
-            int y = int(x1 * sin(rad) + y1 * cos(rad)); 
-
-            int sxy = (iHeight - (y - iMinY) - 1) * iWidth + (x - iMinX);
-            int dxy = (tHeight - (y1 - tMinY) - 1) * tWidth + (x1 - tMinX); 
-
-            if (x >= iMinX && x < iMaxX && y >= iMinY && y < iMaxY)
-                dst[dxy] = src[sxy];
-        }
-    }
-
-    SetWorkingImage(pFrom);
-    setorigin(0, 0);
-    SetWorkingImage(pWorking); // 还原原图坐标 */
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
 }
-void transparentimage(IMAGE *dstimg, int x, int y, IMAGE *srcimg)
+Bullet::Bullet(int x, int y, int speed, int i)
 {
-    DWORD *dst = GetImageBuffer(dstimg);
-    DWORD *src = GetImageBuffer(srcimg);
-    int src_width = srcimg->getwidth();
-    int src_height = srcimg->getheight();
-    int dst_width = (dstimg == NULL ? getwidth() : dstimg->getwidth());
-    int dst_height = (dstimg == NULL ? getheight() : dstimg->getheight());
-    int iwidth = (x + src_width > dst_width) ? dst_width - x : src_width;
-    int iheight = (y + src_height > dst_height) ? dst_height - y : src_height;
-    if (x < 0)
-    {
-        src += -x;
-        iwidth -= -x;
-        x = 0;
-    }
-    if (y < 0)
-    {
-        src += src_width * -y;
-        iheight -= -y;
-        y = 0;
-    }
-    dst += dst_width * y + x;
-    for (int iy = 0; iy < iheight; iy++)
-    {
-        for (int ix = 0; ix < iwidth; ix++)
-        {
-            int sa = ((src[ix] & 0xff000000) >> 24);
-            int sr = ((src[ix] & 0xff0000) >> 16);
-            int sg = ((src[ix] & 0xff00) >> 8);
-            int sb = src[ix] & 0xff;
-            int dr = ((dst[ix] & 0xff0000) >> 16);
-            int dg = ((dst[ix] & 0xff00) >> 8);
-            int db = dst[ix] & 0xff;
-            dst[ix] = ((sr + dr * (255 - sa) / 255) << 16) | ((sg + dg * (255 - sa) / 255) << 8) | (sb + db * (255 - sa) / 255);
-        }
-        dst += dst_width;
-        src += src_width;
-    }
-}
-void Delete(int flag, int x, int y)
-{
-    Node *p;
-    Node *ptr;
-    Boom *pb; 
-    Boom *ptrb;
-    switch (flag)
-    {
-    case 0:
-        p = pEnemy->next; 
-        ptr = pEnemy;
-        while (p != NULL)
-        {
-            if (p->y >= HEIGHT || (p->x == x && p->y == y))
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-    case 1:
-        p = pBullet->next; 
-        ptr = pBullet;
-
-        while (p != NULL)
-        { 
-
-            if (p->y <= 0 || (p->x == x && p->y == y))
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-
-    case 2:
-        p = pBullet_E->next; 
-        ptr = pBullet_E;
-        while (p != NULL)
-        { 
-
-            if (p->y >= HEIGHT || p->y <= 0 || (p->x == x && p->y == y))
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next;
-        }
-        break;
-    case 3:
-        pb = pBoom->next; 
-        ptrb = pBoom;
-        while (pb != NULL)
-        { 
-
-            if (pb->x == x && pb->y == y)
-            {
-                ptrb->next = pb->next;
-                free(pb);
-                pb = nullptr;
-            }
-            else
-                ptrb = pb;
-            pb = ptrb->next; 
-        }
-        break;
-    }
-}
-void Delete(int flag)
-{
-    Node *p;
-    Node *ptr;
-    Boom *pb, *ptrb;
-    switch (flag)
-    {
-    case 0:
-        p = pEnemy->next; 
-        ptr = pEnemy;
-        while (p != NULL)
-        { 
-            if (p->y >= HEIGHT || p->x < -100 || p->x > WIDTH + 100)
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-    case 1:
-        p = pBullet->next; 
-        ptr = pBullet;
-
-        while (p != NULL)
-        { 
-
-            if (p->y <= -p->height)
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-
-    case 2:
-        p = pBullet_E->next; 
-        ptr = pBullet_E;
-        while (p != NULL)
-        { 
-
-            if (p->y > HEIGHT || p->y < -80 || p->x < -50 || p->x > WIDTH)
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-    case 3:
-        p = pBullet->next; 
-        ptr = pBullet;
-        while (p != NULL)
-        { 
-            ptr->next = p->next;
-            free(p); 
-            p = nullptr;
-            p = ptr->next; 
-        }
-
-        p = pEnemy->next; 
-        ptr = pEnemy;
-        while (p != NULL)
-        { 
-            ptr->next = p->next;
-            free(p); 
-            p = nullptr;
-            p = ptr->next; 
-        }
-
-        p = pBullet_E->next; 
-        ptr = pBullet_E;
-        while (p != NULL)
-        {
-            ptr->next = p->next;
-            free(p);
-            p = nullptr;
-            p = ptr->next; 
-        }
-
-        pb = pBoom->next; 
-        ptrb = pBoom;
-        while (pb != NULL)
-        { 
-            ptrb->next = pb->next;
-            free(pb);
-            pb = nullptr;
-            pb = ptrb->next; 
-        }
-        break;
-    }
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
 }
 
-// 将得分每一位的数字放在数组里
-int digitofscore(void)
+//所有用到的函数的定义
+//1.鼠标信息函数
+void MouseListener(void) {
+	MOUSEMSG m;                               //鼠标
+	if (MouseHit() && stage.pause) {                         //如果按下鼠标且在暂停界面
+		m = GetMouseMsg();                               //获取鼠标信息
+		switch (m.uMsg)
+		{
+		case WM_LBUTTONDOWN:                              //鼠标按下 在不同按钮处，CoverButton结构体内变量有不同值
+				if (QUIT2_SCOPE)
+					CoverButton.button_quit = 1;            //亮
+				else
+					CoverButton.button_quit = 0;             //熄
+				if (CONTINUE_SCOPE)
+					CoverButton.button_continue = 1;             //亮
+				else
+					CoverButton.button_continue = 0;             //熄
+				if (HOME_SCOPE)
+					CoverButton.button_home = 1;          //亮
+				else
+					CoverButton.button_home = 0;             //熄
+			break;
+		case WM_LBUTTONUP:                                //鼠标抬起
+				if (QUIT2_SCOPE)
+				{
+					CoverButton.button_quit = 0;       //在QUIT处松开鼠标，状态既不是暂停界面，也不是游戏界面，直接退出
+					stage.pause = 0;
+					stage.game = 0;
+					stage.home = 0;
+				}
+				else if (CONTINUE_SCOPE)
+				{
+					CoverButton.button_continue = 0;            //在CONTINUE处松开鼠标，继续游戏
+					stage.pause = 0;
+					stage.home = 0;
+					stage.game = 1;
+
+				}
+				else if (HOME_SCOPE)
+				{
+					CoverButton.button_home = 0;              //在HOME处松开鼠标，进入HOME界面
+                    stage.pause = 0;
+                    stage.game = 0;
+					stage.home = 1;
+				}
+			break;
+		}
+	}
+	if (MouseHit() && stage.home) {                    //如果按下鼠标且在主菜单界面
+		m = GetMouseMsg();                               //获取鼠标事件
+		switch (m.uMsg) {
+		case WM_LBUTTONDOWN:                            //鼠标按下
+		    if (LEVEL1_SCOPE)
+				CoverButton.button_level1 = 1;            //按钮亮
+			else
+				CoverButton.button_level1 = 0;           //按钮熄
+			if (LEVEL2_SCOPE)
+				CoverButton.button_level2 = 1;           //亮
+			else
+				CoverButton.button_level2 = 0;            //熄
+			if (QUIT1_SCOPE)
+				CoverButton.button_quit = 1;             //亮
+			else
+				CoverButton.button_quit = 0;              //熄
+		break;
+		case WM_LBUTTONUP:                            //鼠标抬起
+			if (LEVEL1_SCOPE)
+			{
+				CoverButton.button_level1 = 0;            //按钮熄
+				stage.pause = 0;                     //在LEVEL1处松开鼠标，进入第一关
+				stage.game = 1;
+				stage.home = 0;
+			}
+			else if (LEVEL2_SCOPE)
+			{
+				CoverButton.button_level2 = 0;            //按钮熄
+				stage.pause = 0;                     
+				stage.game = 1;                      //在LEVEL2处松开鼠标，进入第二关
+				stage.home = 0;
+			}
+			else if (QUIT1_SCOPE)
+			{
+				CoverButton.button_quit = 0;             //按钮熄
+                stage.pause = 0;                     //在QUIT处松开鼠标，退出游戏
+                stage.game = 0;
+                stage.home = 0;
+			}
+        break;
+		}
+	}
+}
+ int GetCommand(void)												//得到按键，上下左右
 {
-    int x = score;
-    int i = 0;
-    while (x > 0)
-    {
-        num[i] = x % 10;
-        x /= 10;
-        i++;
-    }
+	int c = 0;
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) 
+	{
+		c |= CMD_ESC;
+		stage.pause = 1;
+		stage.game = 0;
+		stage.home = 0;
+	}
+	return c;
+}
+//2.飞机移动函数
+void Plane::move(char key)
+{
+if(GetAsyncKeyState(VK_UP)||GetAsyncKeyState('W'))
+   {
+    if(y>0)
+    this->y-=speed;
+   }
+   if(GetAsyncKeyState(VK_DOWN)||GetAsyncKeyState('S'))
+   {
+    if(y<800)
+    this->y+=speed;
+   }
+   if(GetAsyncKeyState(VK_LEFT)||GetAsyncKeyState('A'))
+   {
+    if(x>0)
+    this->x-=speed;
+   }
+   if(GetAsyncKeyState(VK_RIGHT)||GetAsyncKeyState('D'))
+   {
+    if(x<640)
+    this->x+=speed;
+   }
+}
+//3.飞机参数获取函数
+int &Plane::getX()
+{
+    return x;
+}
+int &Plane::getY()
+{
+    return y;
+}
+int &Plane::getSpeed()
+{
+    return speed;
+}
+//4.飞机绘制函数
+void Plane::draw()
+{
+    // 绘制飞机的矩形身体
+    setfillcolor(color);
+    solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
+
+    // 绘制飞机的两个引擎
+    setfillcolor(RGB(0, 0, 255));                                          // 设置引擎颜色为蓝色
+    solidrectangle(this->x - 10, this->y + 30, this->x - 5, this->y + 40); // 左引擎
+    solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎
+}
+//5.子弹函数
+void Bullet::drawBullet(int x,int y) // 绘制子弹,己方子弹为蓝色实心圆
+{
+    setfillcolor(BLUE);
+    solidcircle(x, y, 5);
+}
+void Bullet::moveBullet() // 移动子弹,己方子弹只往上移动
+{
+    this->y -= this->speed;
+}
+int &Bullet::getX() // 子弹坐标
+{
+    return x;
+}
+int &Bullet::getY()
+{
+    return y;
+}
+int &Bullet::getSpeed() // 子弹速度，参考速度为1
+{
+    return speed;
+}
+int &Bullet::getI()
+{
     return i;
 }
-// 创建链表
-void CreateList(void)
-{
-    pEnemy = (Node *)malloc(sizeof(Node)); // 给敌机头指针分配内存
-    pEnemy->next = NULL;
+//6.
+//7.
+//8.
+//9.
+ 
 
-    pBullet = (Node *)malloc(sizeof(Node)); // 给子弹分配内存
-    pBullet->next = NULL;
 
-    pBullet_E = (Node *)malloc(sizeof(Node)); // 给子弹分配内存
-    pBullet_E->next = NULL;
 
-    pMyself = (Node *)malloc(sizeof(Node)); // 我机头指针分配内存
-    pMyself->x = WIDTH / 2 - WIDTH_ME / 2;  // 初始坐标
-    pMyself->y = HEIGHT - 200;
-    pMyself->blood = 300;
-    pMyself->next = NULL;
-    pMyself->width = WIDTH_ME;
-    pMyself->height = HEIGHT_ME;
-    pMyself->invincible = 0;
-    pMyself->weaponlevel = 1;
-    pMyself->speed = 5;
-    pMyself->slowspeed = 2;
 
-    pBoom = (Boom *)malloc(sizeof(Boom));
-    pBoom->next = NULL;
 
-    prop = (Prop *)malloc(sizeof(Prop));
-    prop->next = NULL;
+//主函数
+int main(){
+    IMAGE startImage,pauseImage,gameImage;
+    initgraph(640, 800);
+    loadimage(&startImage, "D:\\Git warehouse\\github\\ace\\rs\\start.bmp");
+    loadimage(&pauseImage, "D:\\Git warehouse\\github\\ace\\rs\\pause.bmp");
+    loadimage(&gameImage, "D:\\Git warehouse\\github\\ace\\rs\\game.bmp");           //加载三个背景图
+    putimage(0,0,&startImage);                     //初始化第一个背景图
+
+ 	list<Bullet *> bulletList;                   //创建链表以记录子弹
+	list<Bullet *>::iterator bulletIter;           //创建迭代器以遍历链表
+	Bullet *pBullet = nullptr; 
+
+    stage.pause = 0;
+	stage.game = 0;
+	stage.home = 1; 
+    CoverButton.button_continue = 0;
+    CoverButton.button_quit = 0;
+    CoverButton.button_home = 0;
+    CoverButton.button_level1 = 0;
+    CoverButton.button_level2 = 0;                    //初始化参数
+
+	HOMEMENU:
+    while(!CoverButton.button_quit)                     //只要没有按到QUIT
+    {   
+        MouseListener();                         //获取鼠标
+		if(stage.game == 1)                      //如果按到level则进入游戏
+        {
+            putimage(0,0,&gameImage);             //绘制游戏背景
+			Plane *playerPlane = new Plane(320, 760, 5); // 创建玩家飞机对象
+    		playerPlane->draw();                      //绘制玩家飞机
+
+    		while (1)                      //玩家飞机开始操作
+    		{
+				GetCommand();                           //获取ESCAPE是否按下
+				if(stage.pause == 1)                            //如果按了ESCAPE，就进入暂停界面
+        		{
+            		putimage(0,0,&pauseImage);                //绘制暂停界面
+					while(!CoverButton.button_quit)             //只要没按到QUIT
+					{
+						MouseListener();                         //获取鼠标
+						if(stage.game == 1)           //如果按到了CONTINUE
+						{
+							putimage(0,0,&gameImage);             //绘制游戏背景
+                            break;                      //退出获取鼠标的循环                                      
+						}
+						else if(stage.home == 1)             //如果按到了HOME
+						{
+							putimage(0,0,&startImage);         //绘制菜单背景
+						 	goto HOMEMENU;           //跳出循环回到主菜单
+						}
+					}	
+					if(CoverButton.button_quit)
+					{
+						goto CLOSE;
+					}
+        		}
+        		BeginBatchDraw();
+        		cleardevice();          // 清空画面
+				putimage(0,0,&gameImage);
+        		playerPlane->draw();    // 绘制玩家飞机
+        		if (_kbhit())
+				{
+            		char key = _getch();    // 获取键盘输入
+            		playerPlane->move(key); // 移动玩家飞机
+					if (GetAsyncKeyState(VK_SPACE))           //创建子弹
+                	{
+						pBullet = new Bullet(playerPlane->getX(), playerPlane->getY()-10,1,5);
+                		bulletList.push_back(pBullet);
+             		}
+				}	
+        		for (bulletIter = bulletList.begin(); bulletIter != bulletList.end();bulletIter++)
+				{
+            		(*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
+            		(*bulletIter)->moveBullet(); 
+        		}
+    			
+
+				EndBatchDraw();
+			}
+		} 
+    }
+	CLOSE:
+    closegraph();                        //按到QUIT直接结束
+    return 0;
 }
+
+/* 					if (GetAsyncKeyState(VK_SPACE))           //创建子弹
+                	{
+						pBullet = new Bullet(playerPlane->getX(), playerPlane->getY()-10,5,5);
+                		bulletList.push_back(pBullet);
+             		}
+        			for (bulletIter = bulletList.begin(); bulletIter != bulletList.end();bulletIter++)
+					{
+            			(*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
+            			(*bulletIter)->moveBullet(); 
+        			}   */
 

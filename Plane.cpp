@@ -1,18 +1,7 @@
 ﻿
 #include "Plane.h"
 #include "Operate.h"
-int GetCommand(void)												//得到按键，上下左右
-{
-	int c = 0;
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) 
-	{
-		c |= CMD_ESC;
-		stage.pause = 1;
-		stage.game = 0;
-		stage.home = 0;
-	}
-	return c;
-}
+
 Plane::Plane()
 {
     color = RGB(255, 0, 0); // 设置飞机颜色为红色
