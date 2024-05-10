@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /* plane.h */
 #pragma once
 #include <graphics.h>
@@ -14,3 +15,5 @@ public:
 private:
     COLORREF color;              // ·É»úÑÕÉ«
 }; 
+=======
+>>>>>>> Stashed changes

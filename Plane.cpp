@@ -40,6 +40,7 @@ void Plane::move(char key_hit) {
     }
 }
 
+<<<<<<< Updated upstream
 /* main.cpp */
 #include <conio.h>
 #include "plane.h"
@@ -59,3 +60,10 @@ int main() {
     closegraph();               // 关闭图形窗口
     return 0;
 }
+=======
+void Plane::upSpeed()
+ {
+     this->speed *= 1.5;
+ }
+
+>>>>>>> Stashed changes
