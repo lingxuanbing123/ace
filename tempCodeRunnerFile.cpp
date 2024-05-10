@@ -2,7 +2,8 @@
 #include <graphics.h>
 #include <conio.h>
 #include "Game.h"
-int main(){
+int main()
+{
     IMAGE background;
     initgraph(640, 640);
     loadimage(&background, "E:\\test\\ace\\rs\\background.bmp");
@@ -11,4 +12,3 @@ int main(){
     closegraph();
     return 0;
 }
-
