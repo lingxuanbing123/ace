@@ -1,5 +1,6 @@
 #include "PlaneEnemy.h"
 #include <graphics.h>
+#include <conio.h>
 PlaneEnemy::PlaneEnemy()
 {
 	color = RGB(0,255,0); // 设置飞机颜色为绿色
@@ -43,7 +44,8 @@ void Meteorite::meteoriteMove()
         my+=speed;
 }
 int main() {
-    initgraph(1360, 760); // 初始化图形窗口
-    PlaneEnemy pe;          //创建敌机对象
+    initgraph(640, 800); // 初始化图形窗口
+    PlaneEnemy enemyPlane;          //创建敌机对象
+    _getch();
     Meteorite testmeteorite;
 }

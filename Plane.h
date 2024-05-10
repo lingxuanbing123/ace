@@ -3,7 +3,8 @@
 #pragma once
 #include <graphics.h>
 
-class Plane {
+class Plane
+{
 public:
     Plane(); // 构造函数
     Plane(int x, int y, int speed);
@@ -15,7 +16,7 @@ public:
 
 private:
     COLORREF color = RGB(255, 0, 0); // 设置飞机颜色为红色; // 飞机颜色
-    int x = 680, y = 380, speed = 5;
+    int x = 320, y = 380, speed = 5;
 
     /* protected:
         int x, y;  // 飞机坐标

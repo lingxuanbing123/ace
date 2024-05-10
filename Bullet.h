@@ -7,7 +7,7 @@ class Bullet
 public:
    Bullet();
    Bullet(int x, int y, int speed, int i);
-   void drawBullet(); //绘制子弹
+   void drawBullet(int x,int y); //绘制子弹
    void moveBullet(); //移动子弹
    int& getX();
    int& getY();

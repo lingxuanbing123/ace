@@ -1,4 +1,8 @@
 #include "Operate.h"
+#include <iostream>
+#include <conio.h>
+struct Stage stage;
+struct CoverButton CoverButton;
 //获取键盘事件
 int GetCommand(void)												//得到按键，上下左右
 {
@@ -17,9 +21,7 @@ int GetCommand(void)												//得到按键，上下左右
 	return c;
 }
 //鼠标消息
-void MouseListener(void) {
-	HWND hwnd = GetHWnd();										//获取绘图窗口句柄
-	HWND hwnd_now = GetForegroundWindow();						//获取当前焦点窗口句柄
+void MouseListener(void) {				//获取当前焦点窗口句柄
 	MOUSEMSG m;                               //鼠标
 //home界面中间三个按钮LEVEL1，LEVEL2,QUIT
 //pause界面三个按钮CONTINUE,HOME,QUIT

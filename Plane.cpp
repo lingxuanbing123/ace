@@ -1,8 +1,5 @@
 ﻿
-/* plane.cpp */
-/* #pragma once */
 #include "Plane.h"
-#include "Operate.h"
 
 Plane::Plane()
 {
@@ -48,7 +45,7 @@ void Plane::move(char key)
     case 's':
     case 'S':
     case 80:
-        if (y < 720)
+        if (y < 800)
             this->y += this->speed;
         break;
     case 'a':
@@ -60,7 +57,7 @@ void Plane::move(char key)
     case 'd':
     case 'D':
     case 77:
-        if (x < 1300)
+        if (x < 640)
             this->x += this->speed;
         break;
     default:
@@ -80,24 +77,3 @@ int &Plane::getSpeed()
     return speed;
 }
 
-/* main.cpp */
-#include <conio.h>
-#include "Plane.h"
-int main()
-{
-    initgraph(1360, 760);                        // 初始化图形窗口
-    Plane *playerPlane = new Plane(680, 380, 5); // 创建玩家飞机对象
-    playerPlane->draw();
-    while (1)
-    {
-        cleardevice();          // 清空画面
-        playerPlane->draw();    // 绘制玩家飞机
-        char key = _getch();    // 获取键盘输入
-        playerPlane->move(key); // 移动玩家飞机
-        playerPlane->draw();
-        Sleep(10); // 等待一段时间，避免画面闪烁
-    }
-    _getch();
-    closegraph(); // 关闭图形窗口
-    return 0;
-}

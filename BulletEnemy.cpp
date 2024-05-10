@@ -8,7 +8,6 @@ BulletEnemy::BulletEnemy(int x, int y,int speed,int i)
     this->x=x;
     this->y=y;
     this->speed=speed;
-
 }
 void BulletEnemy::drawBulletEnemy() //绘制子弹,敌方子弹为红色实心圆
 {
