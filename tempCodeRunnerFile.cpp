@@ -4,8 +4,8 @@
 #include "Game.h"
 int main(){
     IMAGE background;
-    initgraph(WIDTH, HEIGHT);
-    loadimage(&background, "D:\\Git warehouse\\github\\ace\\rs\\background.bmp");
+    initgraph(640, 640);
+    loadimage(&background, "E:\\test\\ace\\rs\\background.bmp");
     putimage(0,0,&background);
     _getch();
     closegraph();
