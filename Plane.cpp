@@ -1,8 +1,8 @@
-﻿/* plane.cpp */
+﻿
+/* plane.cpp */
 /* #pragma once */
 #include "Plane.h"
 #include "Operate.h"
-
 
 Plane::Plane()
 {
@@ -10,19 +10,18 @@ Plane::Plane()
     this->x = x;
     this->y = y;
     this->speed = speed;
-    
 }
 
-Plane::Plane(int x, int y,int speed)
+Plane::Plane(int x, int y, int speed)
 {
-/*     // 绘制飞机的矩形身体
-    setfillcolor(color);
-    solidrectangle(x - 20, y, x + 20, y + 30);
+    /*     // 绘制飞机的矩形身体
+        setfillcolor(color);
+        solidrectangle(x - 20, y, x + 20, y + 30);
 
-    // 绘制飞机的两个引擎
-    setfillcolor(RGB(0, 0, 255));                  // 设置引擎颜色为蓝色
-    solidrectangle(x - 10, y + 30, x - 5, y + 40); // 左引擎
-    solidrectangle(x + 5, y + 30, x + 10, y + 40); // 右引擎 */
+        // 绘制飞机的两个引擎
+        setfillcolor(RGB(0, 0, 255)); // 设置引擎颜色为蓝色
+        solidrectangle(x - 10, y + 30, x - 5, y + 40); // 左引擎
+        solidrectangle(x + 5, y + 30, x + 10, y + 40); // 右引擎 */
 }
 void Plane::draw()
 {
@@ -31,7 +30,7 @@ void Plane::draw()
     solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
 
     // 绘制飞机的两个引擎
-    setfillcolor(RGB(0, 0, 255));                  // 设置引擎颜色为蓝色
+    setfillcolor(RGB(0, 0, 255));                                          // 设置引擎颜色为蓝色
     solidrectangle(this->x - 10, this->y + 30, this->x - 5, this->y + 40); // 左引擎
     solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎
 }
@@ -68,14 +67,15 @@ void Plane::move(char key)
         break;
     }
 }
-int& Plane:: getX(){
+int &Plane::getX()
+{
     return x;
 }
-int& Plane:: getY()
+int &Plane::getY()
 {
     return y;
 }
-int& Plane:: getSpeed()
+int &Plane::getSpeed()
 {
     return speed;
 }
@@ -85,17 +85,17 @@ int& Plane:: getSpeed()
 #include "Plane.h"
 int main()
 {
-    initgraph(1360, 760); // 初始化图形窗口
-    Plane *playerPlane = new Plane(680,380,5);    // 创建玩家飞机对象
+    initgraph(1360, 760);                        // 初始化图形窗口
+    Plane *playerPlane = new Plane(680, 380, 5); // 创建玩家飞机对象
     playerPlane->draw();
     while (1)
     {
-        cleardevice();         // 清空画面
+        cleardevice();          // 清空画面
         playerPlane->draw();    // 绘制玩家飞机
-        char key = _getch();   // 获取键盘输入
+        char key = _getch();    // 获取键盘输入
         playerPlane->move(key); // 移动玩家飞机
-        playerPlane->draw();        
-        Sleep(10);             // 等待一段时间，避免画面闪烁
+        playerPlane->draw();
+        Sleep(10); // 等待一段时间，避免画面闪烁
     }
     _getch();
     closegraph(); // 关闭图形窗口

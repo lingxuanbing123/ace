@@ -1,9 +1,9 @@
+
 /* plane.h */
 #pragma once
 #include <graphics.h>
 
-class Plane
-{
+class Plane {
 public:
     Plane(); // 构造函数
     Plane(int x, int y, int speed);
