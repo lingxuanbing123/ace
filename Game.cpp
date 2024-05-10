@@ -25,7 +25,6 @@
 #pragma comment(lib, "MSIMG32.LIB")
 #pragma comment(lib, "Winmm.lib")
 
-TIME imer;
 int score; // 得分
 typedef int SOUND;
 
