@@ -1,16 +1,22 @@
-/* plane.h */
 #pragma once
 #include <graphics.h>
 
-class Plane {
+class Plane
+{
 public:
-    int x = 650, y = 720;        // ·É»ú³õÊ¼×ø±ê
-    int speed = 10;              // ·É»úÒÆ¶¯ËÙ¶È
-
-    Plane();                     // ¹¹Ôìº¯Êı
-    void draw();                 // »æÖÆ·É»ú
-    void move(char key_hit);     // ÒÆ¶¯·É»ú£¬¸ù¾İ°´¼üÏìÓ¦
+    Plane(); // æ„é€ å‡½æ•°
+    Plane(int x, int y, int speed);
+    void draw();         // ç»˜åˆ¶é£æœº
+    void move(char key); // ç§»åŠ¨é£æœºï¼Œæ ¹æ®æŒ‰é”®å“åº”
+    int &getX();
+    int &getY();
+    int &getSpeed();
 
 private:
-    COLORREF color;              // ·É»úÑÕÉ«
-}; 
+    COLORREF color = RGB(255, 0, 0); // è®¾ç½®é£æœºé¢œè‰²ä¸ºçº¢è‰²; // é£æœºé¢œè‰²
+    int x = 320, y = 760, speed = 5;
+
+    /* protected:
+        int x, y;  // é£æœºåæ ‡
+        int speed; // é£æœºé€Ÿåº¦ */
+};
