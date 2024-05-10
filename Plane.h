@@ -1,5 +1,3 @@
-
-/* plane.h */
 #pragma once
 #include <graphics.h>
 
@@ -22,3 +20,4 @@ private:
         int x, y;  // 飞机坐标
         int speed; // 飞机速度 */
 };
+

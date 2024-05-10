@@ -20,13 +20,18 @@ void Plane::draw()
     // 绘制飞机的矩形身体
     setfillcolor(color);
     solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
+    solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
 
     // 绘制飞机的两个引擎
     setfillcolor(RGB(0, 0, 255));                                          // 设置引擎颜色为蓝色
     solidrectangle(this->x - 10, this->y + 30, this->x - 5, this->y + 40); // 左引擎
     solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎
+    setfillcolor(RGB(0, 0, 255));                                          // 设置引擎颜色为蓝色
+    solidrectangle(this->x - 10, this->y + 30, this->x - 5, this->y + 40); // 左引擎
+    solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎
 }
 
+void Plane::move(char key)
 void Plane::move(char key)
 {
     if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
@@ -50,6 +55,7 @@ void Plane::move(char key)
             this->x += speed;
     }
 }
+
 int &Plane::getX()
 {
     return x;

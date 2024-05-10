@@ -5,10 +5,6 @@
 int GetCommand(void)												//得到按键，上下左右
 {
 	int c = 0;
-	if (GetAsyncKeyState('A') & 0x8000)		c |= CMD_LEFT;
-	if (GetAsyncKeyState('D') & 0x8000)	c |= CMD_RIGHT;
-	if (GetAsyncKeyState('W') & 0x8000)		c |= CMD_UP;
-	if (GetAsyncKeyState('S') & 0x8000)		c |= CMD_DOWN;
 	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) 
 	{
 		c |= CMD_ESC;
@@ -18,18 +14,19 @@ int GetCommand(void)												//得到按键，上下左右
 	}
 	return c;
 }
-//鼠标消息
-void MouseListener(void) {				//获取当前焦点窗口句柄
-	MOUSEMSG m;                               //鼠标
+
 //home界面中间三个按钮LEVEL1，LEVEL2,QUIT
 //pause界面三个按钮CONTINUE,HOME,QUIT
+//鼠标消息
 
+void MouseListener(void) {
+	MOUSEMSG m;                               //鼠标
 	if (MouseHit() && stage.pause) {                         //如果按下鼠标且在暂停界面
 		m = GetMouseMsg();                               //获取鼠标信息
 		switch (m.uMsg)
 		{
 		case WM_LBUTTONDOWN:                              //鼠标按下 在不同按钮处，CoverButton结构体内变量有不同值
-				if (QUIT_SCOPE)
+				if (QUIT2_SCOPE)
 					CoverButton.button_quit = 1;            //亮
 				else
 					CoverButton.button_quit = 0;             //熄
@@ -43,7 +40,7 @@ void MouseListener(void) {				//获取当前焦点窗口句柄
 					CoverButton.button_home = 0;             //熄
 			break;
 		case WM_LBUTTONUP:                                //鼠标抬起
-				if (QUIT_SCOPE)
+				if (QUIT2_SCOPE)
 				{
 					CoverButton.button_quit = 0;       //在QUIT处松开鼠标，状态既不是暂停界面，也不是游戏界面，直接退出
 					stage.pause = 0;
@@ -68,7 +65,6 @@ void MouseListener(void) {				//获取当前焦点窗口句柄
 			break;
 		}
 	}
-
 	if (MouseHit() && stage.home) {                    //如果按下鼠标且在主菜单界面
 		m = GetMouseMsg();                               //获取鼠标事件
 		switch (m.uMsg) {
@@ -81,7 +77,7 @@ void MouseListener(void) {				//获取当前焦点窗口句柄
 				CoverButton.button_level2 = 1;           //亮
 			else
 				CoverButton.button_level2 = 0;            //熄
-			if (QUIT_SCOPE)
+			if (QUIT1_SCOPE)
 				CoverButton.button_quit = 1;             //亮
 			else
 				CoverButton.button_quit = 0;              //熄
@@ -101,7 +97,7 @@ void MouseListener(void) {				//获取当前焦点窗口句柄
 				stage.game = 1;                      //在LEVEL2处松开鼠标，进入第二关
 				stage.home = 0;
 			}
-			else if (QUIT_SCOPE)
+			else if (QUIT1_SCOPE)
 			{
 				CoverButton.button_quit = 0;             //按钮熄
                 stage.pause = 0;                     //在QUIT处松开鼠标，退出游戏
