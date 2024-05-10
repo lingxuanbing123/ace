@@ -2,6 +2,7 @@
 #include <graphics.h>
 #include <conio.h>
 #include "Game.h"
+
 int main(){
     IMAGE startImage,pauseImage,gameImage;
     initgraph(640, 800);
