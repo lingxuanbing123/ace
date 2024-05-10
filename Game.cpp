@@ -17,7 +17,7 @@
 #include "BulletEnemy.h"
 #include "Boom.h"
 #include "Bullet.h"
-#include "Interface.h"
+
 #include "PlaneEnemy.h"
 #include "Operate.h"
 #include "Score.h"
@@ -25,7 +25,6 @@
 #pragma comment(lib, "MSIMG32.LIB")
 #pragma comment(lib, "Winmm.lib")
 
-TIME imer;
 int score; // 得分
 typedef int SOUND;
 
