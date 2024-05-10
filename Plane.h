@@ -16,7 +16,7 @@ public:
 
 private:
     COLORREF color = RGB(255, 0, 0); // 设置飞机颜色为红色; // 飞机颜色
-    int x = 320, y = 380, speed = 30;
+    int x = 320, y = 380, speed = 8;
 
     /* protected:
         int x, y;  // 飞机坐标

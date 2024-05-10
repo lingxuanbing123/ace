@@ -11,14 +11,9 @@ Plane::Plane()
 
 Plane::Plane(int x, int y, int speed)
 {
-    /*     // 绘制飞机的矩形身体
-        setfillcolor(color);
-        solidrectangle(x - 20, y, x + 20, y + 30);
-
-        // 绘制飞机的两个引擎
-        setfillcolor(RGB(0, 0, 255)); // 设置引擎颜色为蓝色
-        solidrectangle(x - 10, y + 30, x - 5, y + 40); // 左引擎
-        solidrectangle(x + 5, y + 30, x + 10, y + 40); // 右引擎 */
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
 }
 void Plane::draw()
 {
@@ -34,34 +29,25 @@ void Plane::draw()
 
 void Plane::move(char key)
 {
-    switch (key)
+    if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
     {
-    case 'w':
-    case 'W':
-    case 72:
         if (y > 0)
-            this->y -= this->speed;
-        break;
-    case 's':
-    case 'S':
-    case 80:
+            this->y -= speed;
+    }
+    if (GetAsyncKeyState(VK_DOWN) || GetAsyncKeyState('S'))
+    {
         if (y < 800)
-            this->y += this->speed;
-        break;
-    case 'a':
-    case 'A':
-    case 75:
+            this->y += speed;
+    }
+    if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
+    {
         if (x > 0)
-            this->x -= this->speed;
-        break;
-    case 'd':
-    case 'D':
-    case 77:
+            this->x -= speed;
+    }
+    if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D'))
+    {
         if (x < 640)
-            this->x += this->speed;
-        break;
-    default:
-        break;
+            this->x += speed;
     }
 }
 int &Plane::getX()
