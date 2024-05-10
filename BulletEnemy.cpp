@@ -1,4 +1,4 @@
-#include  "BulletEnemy.h"
+/* #include  "BulletEnemy.h"
 BulletEnemy::BulletEnemy()
 {
 
@@ -33,4 +33,4 @@ int& BulletEnemy::getSpeed() //子弹速度，参考速度为1
 int& BulletEnemy::getI()
 {
     return i;
-}
+} */

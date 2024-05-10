@@ -1,4 +1,4 @@
-#include "PlaneEnemy.h"
+/* #include "PlaneEnemy.h"
 #include <graphics.h>
 #include <conio.h>
 PlaneEnemy::PlaneEnemy()
@@ -48,4 +48,4 @@ int main() {
     PlaneEnemy enemyPlane;          //创建敌机对象
     _getch();
     Meteorite testmeteorite;
-}
+} */

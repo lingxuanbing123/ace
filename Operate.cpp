@@ -1,8 +1,6 @@
 #include "Operate.h"
 #include <iostream>
 #include <conio.h>
-struct Stage stage;
-struct CoverButton CoverButton;
 //获取键盘事件
 int GetCommand(void)												//得到按键，上下左右
 {
