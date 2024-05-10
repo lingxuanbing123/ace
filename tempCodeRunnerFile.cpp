@@ -59,7 +59,6 @@ int main(){
         closegraph();
         return 0;
     }
-
     _getch();
     closegraph();
     return 0;
