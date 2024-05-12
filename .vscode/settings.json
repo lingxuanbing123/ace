@@ -59,6 +59,9 @@
   "C_Cpp.errorSquiggles": "enabled",
   "files.associations": {
     "*.embeddedhtml": "html",
-    "concepts": "cpp"
+    "concepts": "cpp",
+    "array": "cpp",
+    "string_view": "cpp",
+    "ranges": "cpp"
   }
 }

@@ -14,7 +14,7 @@ public:
 
 private:
 	COLORREF color = RGB(0, 255, 0); // ·É»úÑÕÉ«
-	double speed, x, y;
+	double speed, x=0, y=0;
 	int m;
 };
 
