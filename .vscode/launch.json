@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "${fileDirname}",
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "cwd": "d:/git0/ace",
+      "program": "d:/git0/ace/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

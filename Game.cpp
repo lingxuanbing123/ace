@@ -8,380 +8,244 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <graphics.h>
-
+#include <list>
+using namespace std;
 // esayx
 #include "Game.h"
 #include "Prop.h"
-#include "Plane.h"
 #include "Shoot.h"
 #include "BulletEnemy.h"
 #include "Boom.h"
 #include "Bullet.h"
-
 #include "PlaneEnemy.h"
+#include "Plane.h"
 #include "Operate.h"
-#include "Score.h"
 
-#pragma comment(lib, "MSIMG32.LIB")
-#pragma comment(lib, "Winmm.lib")
-
-int score; // 得分
 typedef int SOUND;
 
 Prop *prop;
 Boom *pBoom;
-Node *pBullet;   // 子弹
-Node *pBullet_E; // 敌机子弹
-Node *pEnemy;    // 敌机
-Node *pMyself;   // 我机
-
-int num[10];  // 得分每一位数,用全局以方便清零
-int boss = 0; // 是否存在boss
-FRAME Frame;
+/* Node *pBullet;     // 子弹 */
+Node *pBullet_E;   // 敌机子弹
+Node *enemyPlane;  // 敌机
+Node *playerPlane; // 我机
+int boss = 0;      // 是否存在boss
 struct CoverButton CoverButton;
 struct Stage stage;
-double lct = 0; // 地图坐标
 
-double distance(double x1, double y1, double x2, double y2)
+bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22);
+bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22)
 {
-    return sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+    if (x11 < x22 || x12 > x21 || y11 < y22 || y12 > y21)
+    {
+        return false;
+    }
+    else
+        return true;
 }
-void RotateImage(IMAGE *pTo, IMAGE *pFrom, double rad)
+int main()
 {
-/*     IMAGE *pWorking = GetWorkingImage();
-    SetWorkingImage(pFrom);
-    int iWidth = getwidth();
-    int iHeight = getheight(); // 获取原图长宽
-    while (rad > 2 * PI)       // 化简弧度
-        rad -= 2 * PI;
+    srand((unsigned int)time(NULL)); // 随机数初始化
+    IMAGE startImage, pauseImage, gameImage;
+    initgraph(640, 800);
+    loadimage(&startImage, "D:\\git0\\ace\\rs\\start.bmp");
+    loadimage(&pauseImage, "D:\\git0\\ace\\rs\\pause.bmp");
+    loadimage(&gameImage, "D:\\git0\\ace\\rs\\game.bmp"); // 加载三个背景图
+    putimage(0, 0, &startImage);                          // 初始化第一个背景图
+    list<Bullet *> bulletList;                            // 创建链表以记录子弹
+    list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
+    list<Bullet *>::iterator bulletIter;                  // 创建迭代器以遍历链表
+    list<PlaneEnemy *>::iterator eplaneIter;              // 创建迭代器
+    Bullet *pBullet = nullptr;
+    PlaneEnemy *ePlane = nullptr;
 
-    double pad = rad; // 处理弧度
-    if (pad > PI / 2 && pad <= PI)
+    stage.pause = 0;
+    stage.game = 0;
+    stage.home = 1;
+    CoverButton.button_continue = 0;
+    CoverButton.button_quit = 0;
+    CoverButton.button_home = 0;
+    CoverButton.button_level1 = 0;
+    CoverButton.button_level2 = 0; // 初始化参数
+
+HOMEMENU:
+    while (!CoverButton.button_quit) // 只要没有按到QUIT
     {
-        pad -= PI / 2;
-        pad = PI / 2 - pad;
-    }
-    else if (pad > PI && pad <= PI / 2 * 3)
-    {
-        pad -= PI;
-    }
-    else if (pad > PI / 2 * 3 && pad <= PI * 2)
-    {
-        pad -= PI / 2 * 3;
-        pad = PI / 2 - pad;
-    }
-
-    int tWidth = int(iWidth * cos(pad) + iHeight * sin(pad));
-    int tHeight = int(iHeight * cos(pad) + iWidth * sin(pad)); // 计算新图大小
-
-    int iMinX = -(iWidth / 2), iMinY = -(iHeight / 2);
-    int iMaxX = iMinX + iWidth, iMaxY = iMinY + iHeight; // 计算原图最小（大）坐标
-
-    int tMinX = -(tWidth / 2), tMinY = -(tHeight / 2);
-    int tMaxX = tMinX + tWidth, tMaxY = tMinY + tHeight; // 计算新图最小（大）坐标
-
-    setorigin(-iMinX, -iMinY); // 设置图片中心为原点
-
-    SetWorkingImage(NULL);
-    pTo->Resize(tWidth, tHeight); // 初始化新图
-
-    DWORD *dst = GetImageBuffer(pTo);
-    DWORD *src = GetImageBuffer(pFrom); // 获取新图、原图的缓冲区
-
-    SetWorkingImage(pTo);
-    for (int y1 = 0; y1 < tHeight; y1++)
-    {
-        for (int x1 = 0; x1 < tWidth; x1++)
-            dst[x1] = 0x00000000;
-        dst += tWidth;
-    }
-
-    SetWorkingImage(pWorking);
-    for (int y1 = 0; y1 < tHeight; y1++) 
-        dst -= tWidth;
-
-    for (int y1 = tMinY; y1 < tMaxY; y1++)
-    {
-        for (int x1 = tMinX; x1 < tMaxX; x1++)
+        MouseListener();     // 获取鼠标
+        if (stage.game == 1) // 如果按到level则进入游戏
         {
-            int x = int(x1 * cos(rad) - y1 * sin(rad));
-            int y = int(x1 * sin(rad) + y1 * cos(rad)); 
+            putimage(0, 0, &gameImage);                  // 绘制游戏背景
+            Plane *playerPlane = new Plane(320, 760, 5); // 创建玩家飞机对象
+            playerPlane->draw();                         // 绘制玩家飞机
 
-            int sxy = (iHeight - (y - iMinY) - 1) * iWidth + (x - iMinX);
-            int dxy = (tHeight - (y1 - tMinY) - 1) * tWidth + (x1 - tMinX); 
+            while (1) // 玩家飞机开始操作
+            {
+                GetCommand();         // 获取ESCAPE是否按下
+                if (stage.pause == 1) // 如果按了ESCAPE，就进入暂停界面
+                {
+                    putimage(0, 0, &pauseImage);     // 绘制暂停界面
+                    while (!CoverButton.button_quit) // 只要没按到QUIT
+                    {
+                        MouseListener();     // 获取鼠标
+                        if (stage.game == 1) // 如果按到了CONTINUE
+                        {
+                            putimage(0, 0, &gameImage); // 绘制游戏背景
+                            break;                      // 退出获取鼠标的循环
+                        }
+                        else if (stage.home == 1) // 如果按到了HOME
+                        {
+                            putimage(0, 0, &startImage); // 绘制菜单背景
+                            goto HOMEMENU;               // 跳出循环回到主菜单
+                        }
+                    }
+                    if (CoverButton.button_quit)
+                    {
+                        goto CLOSE;
+                    }
+                }
+                BeginBatchDraw();
+                cleardevice(); // 清空画面
+                putimage(0, 0, &gameImage);
+                if (eplaneList.size() < 5)
+                {
+                    int pos = rand() % 53; // 0-52
+                    switch (pos)
+                    {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 25:
+                    case 26:
+                    case 27:
+                    case 28:
+                    case 29:
+                    case 30:
+                    case 31:
+                    case 32:
+                    case 33:
+                    case 34:
+                    case 35:
+                    case 36:
+                    case 37:
+                    case 38:
+                    case 39:
+                    case 40:
+                    case 41:
+                    case 42:
+                    case 43:
+                    case 44:
+                    case 45:
+                    case 46:
+                    case 47:
+                    case 48:
+                    case 49:
+                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 10 + 3, 1);
+                        break;
+                    case 50:
+                    case 51:
+                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 10 + 3, 2);
+                        break;
+                    case 52:
+                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, rand() % 8 * 100 + 50, 0, 3);
+                        break;
+                    }
+                    eplaneList.push_back(ePlane);
+                }
+                playerPlane->draw(); // 绘制玩家飞机
+                if (_kbhit())
+                {
+                    char key = _getch();            // 获取键盘输入
+                    playerPlane->move(key);         // 移动玩家飞机
+                    if (GetAsyncKeyState(VK_SPACE)) // 创建子弹
+                    {
+                        pBullet = new Bullet(playerPlane->getX(), playerPlane->getY() - 10, 1, 5);
+                        bulletList.push_back(pBullet);
+                    }
+                }
+                for (bulletIter = bulletList.begin(); bulletIter != bulletList.end(); bulletIter++)
+                {                    (*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
+                    (*bulletIter)->moveBullet();
+                    if (planeEP((*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5, (*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
+                    {
+                        eplaneIter = eplaneList.erase(eplaneIter);
+                        bulletIter = bulletList.erase(bulletIter);
+                        break;
+                    }
+                }
+                if (!bulletList.empty() && bulletList.front()->getY() < -10)
+                {
+                    bulletList.pop_front();
+                }
+                for (eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end(); eplaneIter++)
+                {
+                    (*eplaneIter)->draw((*eplaneIter)->getM());
+                    (*eplaneIter)->move();
+                }
+                for (eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end(); eplaneIter++)
+                {
+                    if ((*eplaneIter)->getY() >= 800)
+                    {
+                        eplaneIter = eplaneList.erase(eplaneIter);
+                        if (eplaneIter == eplaneList.end())
+                        {
+                            break;
+                        }
+                    }
+                    break;
+                }
 
-            if (x >= iMinX && x < iMaxX && y >= iMinY && y < iMaxY)
-                dst[dxy] = src[sxy];
+                EndBatchDraw();
+/*                 if (GetAsyncKeyState(VK_SPACE))
+                {
+                        if (planeEP((*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5, (*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
+                        {
+                            eplaneIter = eplaneList.erase(eplaneIter);
+                            bulletIter = bulletList.erase(bulletIter);
+                            break;
+                        }
+                } */
+                if (planeEP(playerPlane->getX() + 20, playerPlane->getY() + 30, playerPlane->getX() - 20, playerPlane->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
+                {
+                    stage.home = 1;
+                    stage.game = 0;
+                    putimage(0, 0, &startImage);
+                    for (eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end(); eplaneIter++)
+                    {
+                        eplaneIter = eplaneList.erase(eplaneIter);
+                        if (eplaneIter == eplaneList.end())
+                        {
+                            break;
+                        }
+                        break;
+                    }
+                    break;
+                }
+            }
         }
     }
-
-    SetWorkingImage(pFrom);
-    setorigin(0, 0);
-    SetWorkingImage(pWorking); // 还原原图坐标 */
+CLOSE:
+    closegraph(); // 按到QUIT直接结束
+    return 0;
 }
-void transparentimage(IMAGE *dstimg, int x, int y, IMAGE *srcimg)
-{
-    DWORD *dst = GetImageBuffer(dstimg);
-    DWORD *src = GetImageBuffer(srcimg);
-    int src_width = srcimg->getwidth();
-    int src_height = srcimg->getheight();
-    int dst_width = (dstimg == NULL ? getwidth() : dstimg->getwidth());
-    int dst_height = (dstimg == NULL ? getheight() : dstimg->getheight());
-    int iwidth = (x + src_width > dst_width) ? dst_width - x : src_width;
-    int iheight = (y + src_height > dst_height) ? dst_height - y : src_height;
-    if (x < 0)
-    {
-        src += -x;
-        iwidth -= -x;
-        x = 0;
-    }
-    if (y < 0)
-    {
-        src += src_width * -y;
-        iheight -= -y;
-        y = 0;
-    }
-    dst += dst_width * y + x;
-    for (int iy = 0; iy < iheight; iy++)
-    {
-        for (int ix = 0; ix < iwidth; ix++)
-        {
-            int sa = ((src[ix] & 0xff000000) >> 24);
-            int sr = ((src[ix] & 0xff0000) >> 16);
-            int sg = ((src[ix] & 0xff00) >> 8);
-            int sb = src[ix] & 0xff;
-            int dr = ((dst[ix] & 0xff0000) >> 16);
-            int dg = ((dst[ix] & 0xff00) >> 8);
-            int db = dst[ix] & 0xff;
-            dst[ix] = ((sr + dr * (255 - sa) / 255) << 16) | ((sg + dg * (255 - sa) / 255) << 8) | (sb + db * (255 - sa) / 255);
-        }
-        dst += dst_width;
-        src += src_width;
-    }
-}
-void Delete(int flag, int x, int y)
-{
-    Node *p;
-    Node *ptr;
-    Boom *pb; 
-    Boom *ptrb;
-    switch (flag)
-    {
-    case 0:
-        p = pEnemy->next; 
-        ptr = pEnemy;
-        while (p != NULL)
-        {
-            if (p->y >= HEIGHT || (p->x == x && p->y == y))
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-    case 1:
-        p = pBullet->next; 
-        ptr = pBullet;
-
-        while (p != NULL)
-        { 
-
-            if (p->y <= 0 || (p->x == x && p->y == y))
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-
-    case 2:
-        p = pBullet_E->next; 
-        ptr = pBullet_E;
-        while (p != NULL)
-        { 
-
-            if (p->y >= HEIGHT || p->y <= 0 || (p->x == x && p->y == y))
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next;
-        }
-        break;
-    case 3:
-        pb = pBoom->next; 
-        ptrb = pBoom;
-        while (pb != NULL)
-        { 
-
-            if (pb->x == x && pb->y == y)
-            {
-                ptrb->next = pb->next;
-                free(pb);
-                pb = nullptr;
-            }
-            else
-                ptrb = pb;
-            pb = ptrb->next; 
-        }
-        break;
-    }
-}
-void Delete(int flag)
-{
-    Node *p;
-    Node *ptr;
-    Boom *pb, *ptrb;
-    switch (flag)
-    {
-    case 0:
-        p = pEnemy->next; 
-        ptr = pEnemy;
-        while (p != NULL)
-        { 
-            if (p->y >= HEIGHT || p->x < -100 || p->x > WIDTH + 100)
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-    case 1:
-        p = pBullet->next; 
-        ptr = pBullet;
-
-        while (p != NULL)
-        { 
-
-            if (p->y <= -p->height)
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-
-    case 2:
-        p = pBullet_E->next; 
-        ptr = pBullet_E;
-        while (p != NULL)
-        { 
-
-            if (p->y > HEIGHT || p->y < -80 || p->x < -50 || p->x > WIDTH)
-            {
-                ptr->next = p->next;
-                free(p); 
-                p = nullptr;
-            }
-            else
-                ptr = p;
-            p = ptr->next; 
-        }
-        break;
-    case 3:
-        p = pBullet->next; 
-        ptr = pBullet;
-        while (p != NULL)
-        { 
-            ptr->next = p->next;
-            free(p); 
-            p = nullptr;
-            p = ptr->next; 
-        }
-
-        p = pEnemy->next; 
-        ptr = pEnemy;
-        while (p != NULL)
-        { 
-            ptr->next = p->next;
-            free(p); 
-            p = nullptr;
-            p = ptr->next; 
-        }
-
-        p = pBullet_E->next; 
-        ptr = pBullet_E;
-        while (p != NULL)
-        {
-            ptr->next = p->next;
-            free(p);
-            p = nullptr;
-            p = ptr->next; 
-        }
-
-        pb = pBoom->next; 
-        ptrb = pBoom;
-        while (pb != NULL)
-        { 
-            ptrb->next = pb->next;
-            free(pb);
-            pb = nullptr;
-            pb = ptrb->next; 
-        }
-        break;
-    }
-}
-
-// 将得分每一位的数字放在数组里
-int digitofscore(void)
-{
-    int x = score;
-    int i = 0;
-    while (x > 0)
-    {
-        num[i] = x % 10;
-        x /= 10;
-        i++;
-    }
-    return i;
-}
-// 创建链表
-void CreateList(void)
-{
-    pEnemy = (Node *)malloc(sizeof(Node)); // 给敌机头指针分配内存
-    pEnemy->next = NULL;
-
-    pBullet = (Node *)malloc(sizeof(Node)); // 给子弹分配内存
-    pBullet->next = NULL;
-
-    pBullet_E = (Node *)malloc(sizeof(Node)); // 给子弹分配内存
-    pBullet_E->next = NULL;
-
-    pMyself = (Node *)malloc(sizeof(Node)); // 我机头指针分配内存
-    pMyself->x = WIDTH / 2 - WIDTH_ME / 2;  // 初始坐标
-    pMyself->y = HEIGHT - 200;
-    pMyself->blood = 300;
-    pMyself->next = NULL;
-    pMyself->width = WIDTH_ME;
-    pMyself->height = HEIGHT_ME;
-    pMyself->invincible = 0;
-    pMyself->weaponlevel = 1;
-    pMyself->speed = 5;
-    pMyself->slowspeed = 2;
-
-    pBoom = (Boom *)malloc(sizeof(Boom));
-    pBoom->next = NULL;
-
-    prop = (Prop *)malloc(sizeof(Prop));
-    prop->next = NULL;
-}
-

@@ -3,30 +3,35 @@
 class PlaneEnemy
 {
 public:
-	int planeenemy_x = 0, planeenemy_y = -40;    //敌机坐标
 	PlaneEnemy();
-	int getX() const { return planeenemy_x; }
-	int getY() const { return planeenemy_y; }	
-	void setX(int x) { planeenemy_x = x; }
-	void setY(int y) { planeenemy_y = y; }		// 设置敌机当前位置
-	void draw_PlaneEnemy();         //绘制敌机
-	void EnemyCreat();				//创建敌机
-	void EnemyMove();				//敌机移动机制
-	void Enemy_Bullet_Creat();		//敌机产生子弹
+	PlaneEnemy(double x, double y, double speed,int m);
+	void draw(int m);		 // 绘制飞机
+	void move(); // 移动飞机，根据按键响应
+	double &getX();
+	double &getY();
+	int &getM();
+	double &getSpeed();
 
 private:
-	COLORREF color; // 飞机颜色
-	 int speed;
+	COLORREF color = RGB(0, 255, 0); // 飞机颜色
+	double speed, x=0, y=0;
+	int m;
 };
+
 class Meteorite
 {
 public:
-	int mx = 0, my = -40;			//陨石坐标
+			//陨石坐标
 	Meteorite();					//构造函数
+	Meteorite(double mx,double my,double speed);
 	void draw_meteorite();			//绘制陨石
 	void meteoriteMove();			//陨石移动
+	double &getMX();
+	double &getMY();
+	double &getMSpeed();
+
 private:
 	COLORREF color; // 陨石颜色
-	int speed;
-
+	double mx , my ;
+	double speed;
 };

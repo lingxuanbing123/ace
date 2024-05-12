@@ -1,36 +1,77 @@
 #include "PlaneEnemy.h"
 #include <graphics.h>
+#include <conio.h>
 PlaneEnemy::PlaneEnemy()
 {
 	color = RGB(0,255,0); // 设置飞机颜色为绿色
-    speed = 1;
-    draw_PlaneEnemy();
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
+    this->m = m;
 }
-void PlaneEnemy::draw_PlaneEnemy()
+PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m){
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
+    this->m = m;
+}
+void PlaneEnemy::draw(int m)
 {
+    switch (m){
+        case 1:
     setfillcolor(color);
-    solidrectangle(planeenemy_x - 20, planeenemy_y, planeenemy_x + 20, planeenemy_y + 30);
+    solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
 
     // 绘制飞机的两个引擎
     setfillcolor(RGB(0, 0, 255));                  // 设置引擎颜色为蓝色
-    solidrectangle(planeenemy_x - 10, planeenemy_y  + 30, planeenemy_x - 5, planeenemy_y + 40); // 左引擎
-    solidrectangle(planeenemy_x  + 5, planeenemy_y + 30, planeenemy_x + 10, planeenemy_y + 40); // 右引擎
-}
-void PlaneEnemy::EnemyMove()
-{
-    while (1) 
-    {
-        planeenemy_x+=speed;
-        planeenemy_y+=speed;
+    solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40); // 左引擎
+    solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40); // 右引擎
+    break;
+    case 2:
+        setfillcolor(RGB(128, 128, 128));
+        solidcircle(x, y, 20);
+        break;
+    case 3:
+        setfillcolor(YELLOW);
+        solidcircle(x, y, 10);
+        break;
     }
+}
+void PlaneEnemy::move()
+{
+    this->y += (this->speed)/25;
+}
+double &PlaneEnemy::getX()
+{
+    return x;
+}
+double &PlaneEnemy::getY()
+{
+    return y;
+}
+int &PlaneEnemy::getM()
+{
+    return m;
+}
+double &PlaneEnemy::getSpeed()
+{
+    return speed;
 }
 
 Meteorite::Meteorite()
 {
     color = RGB(128,128,128);   // 设置陨石颜色为灰色
-    speed = 1;
+    this->mx = mx;
+    this->my = my;
+    this->speed = speed;
 }
-
+Meteorite::Meteorite(double mx, double my, double speed)
+{
+    color = RGB(128, 128, 128); // 设置陨石颜色为灰色
+    this->mx = mx;
+    this->my = my;
+    this->speed = speed;
+}
 void Meteorite::draw_meteorite()
 {
     setfillcolor(color);
@@ -39,11 +80,17 @@ void Meteorite::draw_meteorite()
 
 void Meteorite::meteoriteMove()
 {
-    while (1)
-        my+=speed;
+    this->my += (this->speed) / 5;
 }
-int main() {
-    initgraph(1360, 760); // 初始化图形窗口
-    PlaneEnemy pe;          //创建敌机对象
-    Meteorite testmeteorite;
+double &Meteorite::getMX()
+{
+    return mx;
+}
+double &Meteorite::getMY()
+{
+    return my;
+}
+double &Meteorite::getMSpeed()
+{
+    return speed;
 }
