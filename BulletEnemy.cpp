@@ -1,3 +1,9 @@
+//未来得及采用的敌机子弹方案，v2需完善
+
+
+
+
+
 /* #include  "BulletEnemy.h"
 BulletEnemy::BulletEnemy()
 {

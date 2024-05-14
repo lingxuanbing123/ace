@@ -1,7 +1,7 @@
 #include "PlaneEnemy.h"
 #include <graphics.h>
 #include <conio.h>
-PlaneEnemy::PlaneEnemy()
+PlaneEnemy::PlaneEnemy()        //敌机获取相关参数
 {
 	color = RGB(0,255,0); // 设置飞机颜色为绿色
     this->x = x;
@@ -9,15 +9,17 @@ PlaneEnemy::PlaneEnemy()
     this->speed = speed;
     this->m = m;
 }
-PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m){
+PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  //获取敌机参数
+{
     this->x = x;
     this->y = y;
     this->speed = speed;
-    this->m = m;
+    this->m = m;            //用来区分敌机种类
 }
 void PlaneEnemy::draw(int m)
 {
-    switch (m){
+    switch (m)          //根据m绘制不同敌机
+    {
         case 1:
     setfillcolor(color);
     solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
@@ -37,11 +39,11 @@ void PlaneEnemy::draw(int m)
         break;
     }
 }
-void PlaneEnemy::move()
+void PlaneEnemy::move()     //敌机移动（v2需根据m值进行不同的设定）
 {
     this->y += (this->speed)/25;
 }
-double &PlaneEnemy::getX()
+double &PlaneEnemy::getX()  
 {
     return x;
 }

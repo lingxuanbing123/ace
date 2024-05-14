@@ -1,12 +1,12 @@
 #include "Bullet.h"
 #include <conio.h>
-Bullet::Bullet()
+Bullet::Bullet()        //赋予子弹xys，或将子弹xys获取
 {
     this->x = x;
     this->y = y;
     this->speed = speed;
 }
-Bullet::Bullet(double x, double y, double speed, double i)
+Bullet::Bullet(double x, double y, double speed, double i)  //赋予子弹xys，或将子弹xys获取
 {
     this->x = x;
     this->y = y;
@@ -33,7 +33,7 @@ double &Bullet::getSpeed() // 子弹速度，参考速度为1
 {
     return speed;
 }
-double &Bullet::getI()
+double &Bullet::getI()  //子弹半径，v2应替换为贴图
 {
     return i;
 }
