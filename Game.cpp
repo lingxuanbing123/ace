@@ -33,6 +33,8 @@ int boss = 0;      // 是否存在boss
 struct CoverButton CoverButton;
 struct Stage stage;
 
+
+//根据xy相关数据判断各种碰撞
 bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22);
 bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22)
 {
@@ -55,22 +57,24 @@ int main()
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
     list<Bullet *>::iterator bulletIter;                  // 创建迭代器以遍历链表
-    list<PlaneEnemy *>::iterator eplaneIter;              // 创建迭代器
-    Bullet *pBullet = nullptr;
+    list<PlaneEnemy *>::iterator eplaneIter;
+    Bullet *pBullet = nullptr;                            // 创建迭代器
     PlaneEnemy *ePlane = nullptr;
 
-    stage.pause = 0;
+    stage.pause = 0;        //界面相关参数
     stage.game = 0;
     stage.home = 1;
-    CoverButton.button_continue = 0;
+    CoverButton.button_continue = 0;    //按钮相关参数
     CoverButton.button_quit = 0;
     CoverButton.button_home = 0;
     CoverButton.button_level1 = 0;
     CoverButton.button_level2 = 0; // 初始化参数
+    int a;
 
 HOMEMENU:
     while (!CoverButton.button_quit) // 只要没有按到QUIT
     {
+        a = 0;
         MouseListener();     // 获取鼠标
         if (stage.game == 1) // 如果按到level则进入游戏
         {
@@ -98,14 +102,15 @@ HOMEMENU:
                             goto HOMEMENU;               // 跳出循环回到主菜单
                         }
                     }
-                    if (CoverButton.button_quit)
+                    if (CoverButton.button_quit)        // 按到quit，给我丨
                     {
                         goto CLOSE;
                     }
                 }
-                BeginBatchDraw();
+                BeginBatchDraw();       //双缓冲机制维持画图稳定，非必要勿删
                 cleardevice(); // 清空画面
                 putimage(0, 0, &gameImage);
+                //用随机数生成决定敌机种类 敌：陨石：道具=50:2:1
                 if (eplaneList.size() < 5)
                 {
                     int pos = rand() % 53; // 0-52
@@ -184,9 +189,13 @@ HOMEMENU:
                         bulletList.push_back(pBullet);
                     }
                 }
+                //画子弹，判断子弹与敌机的关系，进行子弹敌机的消除
                 for (bulletIter = bulletList.begin(); bulletIter != bulletList.end(); bulletIter++)
-                {                    (*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
+                {
+                    //不断切换xy轴来达到连续画子弹效果                    
+                    (*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
                     (*bulletIter)->moveBullet();
+                    //我方子弹与敌机、陨石等接触，消除敌机（v2需引入血量机制）
                     if (planeEP((*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5, (*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
                     {
                         eplaneIter = eplaneList.erase(eplaneIter);
@@ -194,15 +203,22 @@ HOMEMENU:
                         break;
                     }
                 }
+                //子弹打出屏幕后进行消除
                 if (!bulletList.empty() && bulletList.front()->getY() < -10)
                 {
                     bulletList.pop_front();
                 }
+                //画敌机，对敌机位置和我方位置进行判断
                 for (eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end(); eplaneIter++)
                 {
                     (*eplaneIter)->draw((*eplaneIter)->getM());
                     (*eplaneIter)->move();
+                    if (planeEP(playerPlane->getX() + 20, playerPlane->getY() + 30, playerPlane->getX() - 20, playerPlane->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
+                    {
+                        a = 1;
+                    }
                 }
+                //敌机跑出屏幕后进行消除
                 for (eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end(); eplaneIter++)
                 {
                     if ((*eplaneIter)->getY() >= 800)
@@ -216,18 +232,34 @@ HOMEMENU:
                     break;
                 }
 
-                EndBatchDraw();
-/*                 if (GetAsyncKeyState(VK_SPACE))
+                EndBatchDraw(); // 双缓冲机制维持画图稳定，非必要勿删
+                /*if (GetAsyncKeyState(VK_SPACE))
+                                {
+                                        if (planeEP((*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5, (*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
+                                        {
+                                            eplaneIter = eplaneList.erase(eplaneIter);
+                                            bulletIter = bulletList.erase(bulletIter);
+                                            break;
+                                        }
+                                } */
+                /* if (planeEP(playerPlane->getX() + 20, playerPlane->getY() + 30, playerPlane->getX() - 20, playerPlane->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
                 {
-                        if (planeEP((*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5, (*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
+                    stage.home = 1;
+                    stage.game = 0;
+                    putimage(0, 0, &startImage);
+                    for (eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end(); eplaneIter++)
+                    {
+                        eplaneIter = eplaneList.erase(eplaneIter);
+                        if (eplaneIter == eplaneList.end())
                         {
-                            eplaneIter = eplaneList.erase(eplaneIter);
-                            bulletIter = bulletList.erase(bulletIter);
                             break;
                         }
+                        break;
+                    }
+                    goto HOMEAGAIN;
                 } */
-                if (planeEP(playerPlane->getX() + 20, playerPlane->getY() + 30, playerPlane->getX() - 20, playerPlane->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() - 20, (*eplaneIter)->getY() - 30))
-                {
+                // 我方与敌机碰撞，跳转开始界面，清除敌机（v2需引入血量机制）
+                if (a==1){
                     stage.home = 1;
                     stage.game = 0;
                     putimage(0, 0, &startImage);

@@ -1,7 +1,7 @@
 ﻿
 #include "Plane.h"
 
-Plane::Plane()
+Plane::Plane()          //飞机获取相关参数
 {
     color = RGB(255, 0, 0); // 设置飞机颜色为红色
     this->x = x;
@@ -9,7 +9,7 @@ Plane::Plane()
     this->speed = speed;
 }
 
-Plane::Plane(int x, int y, int speed)
+Plane::Plane(int x, int y, int speed)   //从飞机获取相关参数
 {
     this->x = x;
     this->y = y;
@@ -27,7 +27,7 @@ void Plane::draw()
     solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎
 }
 
-void Plane::move(char key)
+void Plane::move(char key)      //移动相关函数，后续如有必要可改成其他方式
 {
     if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
     {
