@@ -10,7 +10,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-L",  
+                "-L",
                 "D:\\new gcc\\lib",
                 "-leasyx"
             ],

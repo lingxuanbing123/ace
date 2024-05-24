@@ -12,5 +12,6 @@ public:
 private:
     COLORREF color = RGB(255, 0, 0); // 设置道具颜色为红色; 
     int x;
-    int y;                           //道具坐标
+    int y; 
+    bool model;                          //道具类型
 };
