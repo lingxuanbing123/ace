@@ -1,3 +1,5 @@
+// 未来得及采用的敌机子弹方案，v2需完善
+
 #include <iostream>
 #include <graphics.h>
 #include <easyx.h>

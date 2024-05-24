@@ -1,36 +1,79 @@
 #include "PlaneEnemy.h"
 #include <graphics.h>
-PlaneEnemy::PlaneEnemy()
+#include <conio.h>
+PlaneEnemy::PlaneEnemy()        //æ•Œæœºè·å–ç›¸å…³å‚æ•°
 {
-	color = RGB(0,255,0); // ÉèÖÃ·É»úÑÕÉ«ÎªÂÌÉ«
-    speed = 1;
-    draw_PlaneEnemy();
+	color = RGB(0,255,0); // è®¾ç½®é£æœºé¢œè‰²ä¸ºç»¿è‰²
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
+    this->m = m;
 }
-void PlaneEnemy::draw_PlaneEnemy()
+PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  //è·å–æ•Œæœºå‚æ•°
 {
-    setfillcolor(color);
-    solidrectangle(planeenemy_x - 20, planeenemy_y, planeenemy_x + 20, planeenemy_y + 30);
-
-    // »æÖÆ·É»úµÄÁ½¸öÒıÇæ
-    setfillcolor(RGB(0, 0, 255));                  // ÉèÖÃÒıÇæÑÕÉ«ÎªÀ¶É«
-    solidrectangle(planeenemy_x - 10, planeenemy_y  + 30, planeenemy_x - 5, planeenemy_y + 40); // ×óÒıÇæ
-    solidrectangle(planeenemy_x  + 5, planeenemy_y + 30, planeenemy_x + 10, planeenemy_y + 40); // ÓÒÒıÇæ
+    this->x = x;
+    this->y = y;
+    this->speed = speed;
+    this->m = m;            //ç”¨æ¥åŒºåˆ†æ•Œæœºç§ç±»
 }
-void PlaneEnemy::EnemyMove()
+void PlaneEnemy::draw(int m)
 {
-    while (1) 
+    switch (m)          //æ ¹æ®mç»˜åˆ¶ä¸åŒæ•Œæœº
     {
-        planeenemy_x+=speed;
-        planeenemy_y+=speed;
+        case 1:
+    setfillcolor(color);
+    solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
+
+    // ç»˜åˆ¶é£æœºçš„ä¸¤ä¸ªå¼•æ“
+    setfillcolor(RGB(0, 0, 255));                  // è®¾ç½®å¼•æ“é¢œè‰²ä¸ºè“è‰²
+    solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40); // å·¦å¼•æ“
+    solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40); // å³å¼•æ“
+    break;
+    case 2:
+        setfillcolor(RGB(128, 128, 128));
+        solidcircle(x, y, 20);
+        break;
+    case 3:
+        setfillcolor(YELLOW);
+        solidcircle(x, y, 10);
+        break;
     }
+}
+void PlaneEnemy::move()     //æ•Œæœºç§»åŠ¨ï¼ˆv2éœ€æ ¹æ®må€¼è¿›è¡Œä¸åŒçš„è®¾å®šï¼‰
+{
+    this->y += (this->speed)/25;
+}
+double &PlaneEnemy::getX()  
+{
+    return x;
+}
+double &PlaneEnemy::getY()
+{
+    return y;
+}
+int &PlaneEnemy::getM()
+{
+    return m;
+}
+double &PlaneEnemy::getSpeed()
+{
+    return speed;
 }
 
 Meteorite::Meteorite()
 {
-    color = RGB(128,128,128);   // ÉèÖÃÔÉÊ¯ÑÕÉ«Îª»ÒÉ«
-    speed = 1;
+    color = RGB(128,128,128);   // è®¾ç½®é™¨çŸ³é¢œè‰²ä¸ºç°è‰²
+    this->mx = mx;
+    this->my = my;
+    this->speed = speed;
 }
-
+Meteorite::Meteorite(double mx, double my, double speed)
+{
+    color = RGB(128, 128, 128); // è®¾ç½®é™¨çŸ³é¢œè‰²ä¸ºç°è‰²
+    this->mx = mx;
+    this->my = my;
+    this->speed = speed;
+}
 void Meteorite::draw_meteorite()
 {
     setfillcolor(color);
@@ -39,11 +82,17 @@ void Meteorite::draw_meteorite()
 
 void Meteorite::meteoriteMove()
 {
-    while (1)
-        my+=speed;
+    this->my += (this->speed) / 5;
 }
-int main() {
-    initgraph(1360, 760); // ³õÊ¼»¯Í¼ĞÎ´°¿Ú
-    PlaneEnemy pe;          //´´½¨µĞ»ú¶ÔÏó
-    Meteorite testmeteorite;
+double &Meteorite::getMX()
+{
+    return mx;
+}
+double &Meteorite::getMY()
+{
+    return my;
+}
+double &Meteorite::getMSpeed()
+{
+    return speed;
 }
