@@ -26,6 +26,7 @@ using namespace std;
 typedef int SOUND;
 
 Boom *pBoom;
+
 Node *pBullet_E;   // 敌机子弹
 Node *enemyPlane;  // 敌机
 Node *playerPlane; // 我机
@@ -51,13 +52,12 @@ int main()
     srand((unsigned int)time(NULL)); // 随机数初始化
     IMAGE startImage, pauseImage, gameImage;
     initgraph(640, 800);
-    loadimage(&startImage, "D:\\git0\\ace\\rs\\start.bmp");
-    loadimage(&pauseImage, "D:\\git0\\ace\\rs\\pause.bmp");
-    loadimage(&gameImage, "D:\\git0\\ace\\rs\\game.bmp"); // 加载三个背景图
+    loadimage(&startImage, "D:\\code\\ThunderPlane\\ace\\rs\\start.bmp");
+    loadimage(&pauseImage, "D:\\code\\ThunderPlane\\ace\\rs\\pause.bmp");
+    loadimage(&gameImage, "D:\\code\\ThunderPlane\\ace\\rs\\game.bmp"); // 加载三个背景图
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
-
     Bullet *pBullet = nullptr;                            // 创建迭代器
     PlaneEnemy *ePlane = nullptr;
 
@@ -81,6 +81,7 @@ HOMEMENU:
             putimage(0, 0, &gameImage);                  // 绘制游戏背景
             Plane *playerPlane = new Plane(320, 760, 5); // 创建玩家飞机对象
             playerPlane->draw();                         // 绘制玩家飞机
+
 
             while (1) // 玩家飞机开始操作
             {

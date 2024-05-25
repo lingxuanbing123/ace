@@ -84,6 +84,7 @@ typedef struct NODE
     int invincible;
     int weaponlevel;
 } Node;
+
 typedef struct
 {
     int up;
@@ -128,7 +129,6 @@ extern FRAME Frame;
 extern int score; // 得分
 
 
-
 extern Boom *pBoom;
 extern Node *pBullet;       // 子弹
 extern Node *pBullet_Enemy; // 敌机子弹
@@ -139,8 +139,3 @@ extern int num[10];
 extern int boss; // 是否存在boss
 extern struct Stage stage;
 extern struct CoverButton CoverButton;
-
-
-
-
-
