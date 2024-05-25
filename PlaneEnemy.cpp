@@ -1,33 +1,33 @@
 #include "PlaneEnemy.h"
 #include <graphics.h>
 #include <conio.h>
-PlaneEnemy::PlaneEnemy()        //敌机获取相关参数
+PlaneEnemy::PlaneEnemy()        
 {
-	color = RGB(0,255,0); // 设置飞机颜色为绿色
+	color = RGB(0,255,0); 
     this->x = x;
     this->y = y;
     this->speed = speed;
     this->m = m;
 }
-PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  //获取敌机参数
+PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  
 {
     this->x = x;
     this->y = y;
     this->speed = speed;
-    this->m = m;            //用来区分敌机种类
+    this->m = m;           
 }
 void PlaneEnemy::draw(int m)
 {
-    switch (m)          //根据m绘制不同敌机
+    switch (m)          
     {
         case 1:
     setfillcolor(color);
     solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
 
-    // 绘制飞机的两个引擎
-    setfillcolor(RGB(0, 0, 255));                  // 设置引擎颜色为蓝色
-    solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40); // 左引擎
-    solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40); // 右引擎
+   
+    setfillcolor(RGB(0, 0, 255));                 
+    solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40); 
+    solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40); 
     break;
     case 2:
         setfillcolor(RGB(128, 128, 128));
@@ -39,7 +39,7 @@ void PlaneEnemy::draw(int m)
         break;
     }
 }
-void PlaneEnemy::move()     //敌机移动（v2需根据m值进行不同的设定）
+void PlaneEnemy::move()    
 {
     this->y += (this->speed)/25;
 }
@@ -62,14 +62,14 @@ double &PlaneEnemy::getSpeed()
 
 Meteorite::Meteorite()
 {
-    color = RGB(128,128,128);   // 设置陨石颜色为灰色
+    color = RGB(128,128,128);   
     this->mx = mx;
     this->my = my;
     this->speed = speed;
 }
 Meteorite::Meteorite(double mx, double my, double speed)
 {
-    color = RGB(128, 128, 128); // 设置陨石颜色为灰色
+    color = RGB(128, 128, 128);
     this->mx = mx;
     this->my = my;
     this->speed = speed;
