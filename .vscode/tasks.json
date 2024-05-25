@@ -7,10 +7,10 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${fileDirname}\\*.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-L",  
+                "-L",
                 "D:\\new gcc\\lib",
                 "-leasyx"
             ],

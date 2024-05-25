@@ -84,14 +84,6 @@ typedef struct NODE
     int invincible;
     int weaponlevel;
 } Node;
-typedef struct PROP
-{
-    int type;
-    int x;
-    int y;
-    int f_create;
-    struct PROP *next;
-} Prop;
 typedef struct
 {
     int up;
@@ -114,13 +106,15 @@ struct Stage  //当前状态判定    使用0 1
 {
     int pause;  //暂停
     int game;  //游戏中
-    int level;  //关卡
+    int home;  //主菜单
 };
 struct CoverButton    //按钮绘制 亮或者熄 使用0 1
 {
-    int button_back;
-    int button_level;
+    int button_level1;
+    int button_level2;
     int button_quit;
+    int button_continue;
+    int button_home;
 };
 
 struct FRAME
@@ -132,9 +126,7 @@ struct FRAME
 };
 extern FRAME Frame;
 extern int score; // 得分
-typedef int SOUND;
 
-extern Prop *prop;
 extern Boom *pBoom;
 extern Node *pBullet;       // 子弹
 extern Node *pBullet_Enemy; // 敌机子弹
@@ -144,27 +136,4 @@ extern Node *pMyself;       // 我机
 extern int num[10];
 extern int boss; // 是否存在boss
 extern struct Stage stage;
-extern IMAGE button_back2, button_rankinglist, blink, kuangkuang, shield1, huifu, shield, readygo, blood_enemy, enemy_normalb, pausetxt, pausenum, weapon_update, button_quit, button_enter, logo, logo01, cover2, p_01a, zhujizidan, yyy1, yyy2, p_01b, map1, blood, ipause, button_resume, button_back, bullet1, enemy_quicker, enemy_raider, enemy_boss, enemy_normal, enemy_guard, number, boom04, blood_red, yyy, bullet2, bullet3, bullet4, bullet5, rankinglist;
 extern struct CoverButton CoverButton;
-extern double lct; // 地图坐标
-
-void RotateImage(IMAGE *pTo, IMAGE *pFrom, double rad);
-// 另一个透明图
-void transparentimage(IMAGE *dstimg, int x, int y, IMAGE *srcimg);
-// png透明图绘制
-void transparentimage(IMAGE *dstimg, int xt, int yt, int wt, int ht,
-                      int xo, int yo, int wo, int ho, IMAGE *srcimg);
-void transparentimage(IMAGE *dstimg, int x, int y, int w, int h, IMAGE *srcimg);
-// 计算距离
-double distance(double x1, double y1, double x2, double y2);
-// 删除 0敌机 1我子弹 2敌机子弹(不需要坐标),3 所有的东西
-void Delete(int flag);
-
-void CreateList(void);
-void AddItem(void);
-// 删除 0敌机 1我子弹 2敌机子弹 3爆炸(需要坐标)
-void Delete(int flag, int x, int y);
-// 是否暂停
-bool isStop(void);
-
-void Gaming(void);
