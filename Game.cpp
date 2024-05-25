@@ -20,6 +20,7 @@ using namespace std;
 #include "Bullet.h"
 #include "PlaneEnemy.h"
 #include "Plane.h"
+#include "Plane.h"
 #include "Operate.h"
 
 typedef int SOUND;

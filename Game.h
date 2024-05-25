@@ -136,6 +136,7 @@ extern FRAME Frame;
 extern int score; // 得分
 
 
+
 extern Prop *prop;
 extern Boom *pBoom;
 extern Node *pBullet;       // 子弹

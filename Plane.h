@@ -19,5 +19,5 @@ private:
     /* protected:
         int x, y;  // 飞机坐标
         int speed; // 飞机速度 */
+        bool invincible = false; // 己方飞机是否处于无敌状态
 };
-

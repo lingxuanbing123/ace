@@ -1,19 +1,17 @@
-//未来得及采用的prop，v2需完善
-
-
 #pragma once
-#include "Game.h"
-#define SPEEDUP 0
+#include <graphics.h>
 
-void Get_prop(void);
-
-void DeletePropB(int x, int y);
-void DeletePropA(void);
-
-void Paint_prop();
-
-void Move_prop(void);
-
-void Addprop(int flag);
-
-void Draw_prop(int x, int y);
+class Prop
+{
+public:
+    Prop(); // 构造函数
+    void drawProp1(); 
+    void drawProp2();
+    void prop_generate();   //道具生成
+    void prop_acquire();    //道具获得
+private:
+    COLORREF color = RGB(255, 0, 0); // 设置道具颜色为红色; 
+    int x;
+    int y; 
+    bool model;                          //道具类型
+};
