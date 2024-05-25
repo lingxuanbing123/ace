@@ -1,7 +1,4 @@
-
-﻿
 #include "Plane.h"
-
 Plane::Plane()          //飞机获取相关参数
 {
     color = RGB(255, 0, 0); // 设置飞机颜色为红色
