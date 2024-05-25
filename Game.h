@@ -84,14 +84,6 @@ typedef struct NODE
     int invincible;
     int weaponlevel;
 } Node;
-typedef struct PROP
-{
-    int type;
-    int x;
-    int y;
-    int f_create;
-    struct PROP *next;
-} Prop;
 typedef struct
 {
     int up;
@@ -137,7 +129,6 @@ extern int score; // 得分
 
 
 
-extern Prop *prop;
 extern Boom *pBoom;
 extern Node *pBullet;       // 子弹
 extern Node *pBullet_Enemy; // 敌机子弹
