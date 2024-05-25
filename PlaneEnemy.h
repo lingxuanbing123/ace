@@ -11,12 +11,19 @@ public:
 	double &getY();
 	int &getM();
 	double &getSpeed();
+	int getHealth() const; // 返回血量  
+    void setHealth(int health); // 设置血量      
+	int health = 2;    //       小飞机血量为4
+
 
 private:
 	COLORREF color = RGB(0, 255, 0); // 飞机颜色
 	double speed, x=0, y=0;
 	int m;
 };
+
+
+
 
 class Meteorite
 {

@@ -62,6 +62,20 @@ double &PlaneEnemy::getSpeed()
     return speed;
 }
 
+int PlaneEnemy::getHealth() const 
+{ 
+    return health;
+}
+
+void PlaneEnemy::setHealth(int newHealth) 
+{ 
+    if (newHealth >= 0) health = newHealth; 
+}
+
+
+
+
+
 Meteorite::Meteorite()
 {
 
