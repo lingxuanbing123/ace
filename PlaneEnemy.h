@@ -20,6 +20,7 @@ private:
 	int m;
 };
 
+
 class Meteorite
 {
 public:
