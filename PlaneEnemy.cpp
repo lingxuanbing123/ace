@@ -1,6 +1,7 @@
 #include "PlaneEnemy.h"
 #include <graphics.h>
 #include <conio.h>
+
 PlaneEnemy::PlaneEnemy()        
 {
 	color = RGB(0,255,0); 
@@ -9,6 +10,7 @@ PlaneEnemy::PlaneEnemy()
     this->speed = speed;
     this->m = m;
 }
+
 PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  
 {
     this->x = x;
@@ -24,7 +26,6 @@ void PlaneEnemy::draw(int m)
     setfillcolor(color);
     solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
 
-   
     setfillcolor(RGB(0, 0, 255));                 
     solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40); 
     solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40); 
@@ -39,6 +40,7 @@ void PlaneEnemy::draw(int m)
         break;
     }
 }
+
 void PlaneEnemy::move()    
 {
     this->y += (this->speed)/25;
@@ -62,6 +64,7 @@ double &PlaneEnemy::getSpeed()
 
 Meteorite::Meteorite()
 {
+
     color = RGB(128,128,128);   
     this->mx = mx;
     this->my = my;
@@ -69,6 +72,7 @@ Meteorite::Meteorite()
 }
 Meteorite::Meteorite(double mx, double my, double speed)
 {
+
     color = RGB(128, 128, 128);
     this->mx = mx;
     this->my = my;

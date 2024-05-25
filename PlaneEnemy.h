@@ -5,15 +5,15 @@ class PlaneEnemy
 public:
 	PlaneEnemy();
 	PlaneEnemy(double x, double y, double speed,int m);
-	void draw(int m);		 // »æÖÆ·É»ú
-	void move(); // ÒÆ¶¯·É»ú£¬¸ù¾İ°´¼üÏìÓ¦
+	void draw(int m);		 // ç»˜åˆ¶é£æœº
+	void move(); // ç§»åŠ¨é£æœºï¼Œæ ¹æ®æŒ‰é”®å“åº”
 	double &getX();
 	double &getY();
 	int &getM();
 	double &getSpeed();
 
 private:
-	COLORREF color = RGB(0, 255, 0); // ·É»úÑÕÉ«
+	COLORREF color = RGB(0, 255, 0); // é£æœºé¢œè‰²
 	double speed, x=0, y=0;
 	int m;
 };
@@ -21,17 +21,17 @@ private:
 class Meteorite
 {
 public:
-			//ÔÉÊ¯×ø±ê
-	Meteorite();					//¹¹Ôìº¯Êı
+			//é™¨çŸ³åæ ‡
+	Meteorite();					//æ„é€ å‡½æ•°
 	Meteorite(double mx,double my,double speed);
-	void draw_meteorite();			//»æÖÆÔÉÊ¯
-	void meteoriteMove();			//ÔÉÊ¯ÒÆ¶¯
+	void draw_meteorite();			//ç»˜åˆ¶é™¨çŸ³
+	void meteoriteMove();			//é™¨çŸ³ç§»åŠ¨
 	double &getMX();
 	double &getMY();
 	double &getMSpeed();
 
 private:
-	COLORREF color; // ÔÉÊ¯ÑÕÉ«
+	COLORREF color; // é™¨çŸ³é¢œè‰²
 	double mx , my ;
 	double speed;
 };
