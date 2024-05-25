@@ -1,5 +1,5 @@
 
-﻿
+
 #include "Plane.h"
 
 Plane::Plane()          //飞机获取相关参数
@@ -62,5 +62,10 @@ int &Plane::getY()
 }
 int &Plane::getSpeed()
 {
+    return speed;
+}
+ int &Plane::setSpeed()
+{
+    speed+=2;
     return speed;
 }
