@@ -52,9 +52,9 @@ int main()
     srand((unsigned int)time(NULL)); // 随机数初始化
     IMAGE startImage, pauseImage, gameImage;
     initgraph(640, 800);
-    loadimage(&startImage, "D:\\code\\ThunderPlane\\ace\\rs\\start.bmp");
-    loadimage(&pauseImage, "D:\\code\\ThunderPlane\\ace\\rs\\pause.bmp");
-    loadimage(&gameImage, "D:\\code\\ThunderPlane\\ace\\rs\\game.bmp"); // 加载三个背景图
+    loadimage(&startImage, "D:\\git0\\ace\\rs\\start.bmp");
+    loadimage(&pauseImage, "D:\\git0\\ace\\rs\\pause.bmp");
+    loadimage(&gameImage, "D:\\git0\\ace\\rs\\game.bmp"); // 加载三个背景图
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
