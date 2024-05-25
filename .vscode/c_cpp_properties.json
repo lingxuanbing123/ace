@@ -1,24 +1,23 @@
 {
-    "configurations": [
-      {
-        "name": "windows-cygwin-gcc-x64",
-        "includePath": [
-          "${workspaceFolder}/**",
+  "configurations": [
+    {
+      "name": "windows-gcc-x64",
+      "includePath": [
+        "${workspaceFolder}/**"
+      ],
+      "browse": {
+        "path": [
           "${default}"
-        ],
-        "browse": {
-          "path": [
-            "${default}"
-          ]
-        },
-        "compilerPath": "D:/new gcc/bin/g++.exe",
-        "cStandard": "${default}",
-        "cppStandard": "${default}",
-        "intelliSenseMode": "windows-gcc-x64",
-        "compilerArgs": [
-          ""
         ]
-      }
-    ],
-    "version": 4
-  }
+      },
+      "compilerPath": "D:/new gcc/bin/gcc.exe",
+      "cStandard": "${default}",
+      "cppStandard": "${default}",
+      "intelliSenseMode": "windows-gcc-x64",
+      "compilerArgs": [
+        ""
+      ]
+    }
+  ],
+  "version": 4
+}
