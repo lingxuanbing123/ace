@@ -1,10 +1,12 @@
 #include "Plane.h"
 Plane::Plane()          //飞机获取相关参数
 {
-    color = RGB(255, 0, 0); // 设置飞机颜色为红色
+/*     color = RGB(255, 0, 0); // 设置飞机颜色为红色 */
     this->x = x;
     this->y = y;
     this->speed = speed;
+    loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
+    loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
 }
 
 Plane::Plane(int x, int y, int speed)   //从飞机获取相关参数
@@ -12,17 +14,21 @@ Plane::Plane(int x, int y, int speed)   //从飞机获取相关参数
     this->x = x;
     this->y = y;
     this->speed = speed;
+    loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
+    loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
 }
 void Plane::draw()
 {
     // 绘制飞机的矩形身体
-    setfillcolor(color);
-    solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
+/*     setfillcolor(color); */
+/*     solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
 
     // 绘制飞机的两个引擎
     setfillcolor(RGB(0, 0, 255));                                          // 设置引擎颜色为蓝色
     solidrectangle(this->x - 10, this->y + 30, this->x - 5, this->y + 40); // 左引擎
-    solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎
+    solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎 */
+    putimage(this->x, this->y, &plane12,SRCAND);
+    putimage(this->x, this->y, &plane1,SRCPAINT); 
 }
 
 void Plane::move(char key)      //移动相关函数，后续如有必要可改成其他方式
