@@ -154,8 +154,7 @@ for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
 
     for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
     {
-        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5,
-                     (*eplaneIter)->getX() - 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY() + 30))
+        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5,(*eplaneIter)->getX() - 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY() + 30))
         {
             delete *eplaneIter;
             eplaneIter = eplaneList.erase(eplaneIter);
