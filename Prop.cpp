@@ -1,4 +1,5 @@
-#include "Plane.h"
+
+/*#include "Plane.h"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -106,7 +107,4 @@ bool isColliding(const Rectangle& a, const Rectangle& b) {
     }
     return true; // 发生碰撞
 }
-
-
-
-
+*/

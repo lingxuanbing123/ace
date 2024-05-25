@@ -1,4 +1,5 @@
-﻿﻿
+
+﻿
 #include "Plane.h"
 
 Plane::Plane()          //飞机获取相关参数
