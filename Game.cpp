@@ -24,7 +24,6 @@ using namespace std;
 
 typedef int SOUND;
 
-Prop *prop;
 Boom *pBoom;
 
 Node *pBullet_E;   // 敌机子弹
