@@ -9,7 +9,7 @@ Plane::Plane()          //飞机获取相关参数
     loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
 }
 
-Plane::Plane(int x, int y, int speed)   //从飞机获取相关参数
+Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
 {
     this->x = x;
     this->y = y;
@@ -31,7 +31,7 @@ void Plane::draw()
     putimage(this->x, this->y, &plane1,SRCPAINT); 
 }
 
-void Plane::move(char key)      //移动相关函数，后续如有必要可改成其他方式
+void Plane::move(char key) // 移动相关函数，后续如有必要可改成其他方式
 {
     if (GetAsyncKeyState(VK_UP) || GetAsyncKeyState('W'))
     {
@@ -65,5 +65,10 @@ int &Plane::getY()
 }
 int &Plane::getSpeed()
 {
+    return speed;
+}
+ int &Plane::setSpeed()
+{
+    speed+=2;
     return speed;
 }
