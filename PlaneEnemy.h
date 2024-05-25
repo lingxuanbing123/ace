@@ -3,30 +3,35 @@
 class PlaneEnemy
 {
 public:
-	int planeenemy_x = 0, planeenemy_y = -40;    //µĞ»ú×ø±ê
 	PlaneEnemy();
-	int getX() const { return planeenemy_x; }
-	int getY() const { return planeenemy_y; }	
-	void setX(int x) { planeenemy_x = x; }
-	void setY(int y) { planeenemy_y = y; }		// ÉèÖÃµĞ»úµ±Ç°Î»ÖÃ
-	void draw_PlaneEnemy();         //»æÖÆµĞ»ú
-	void EnemyCreat();				//´´½¨µĞ»ú
-	void EnemyMove();				//µĞ»úÒÆ¶¯»úÖÆ
-	void Enemy_Bullet_Creat();		//µĞ»ú²úÉú×Óµ¯
+	PlaneEnemy(double x, double y, double speed,int m);
+	void draw(int m);		 // ç»˜åˆ¶é£æœº
+	void move(); // ç§»åŠ¨é£æœºï¼Œæ ¹æ®æŒ‰é”®å“åº”
+	double &getX();
+	double &getY();
+	int &getM();
+	double &getSpeed();
 
 private:
-	COLORREF color; // ·É»úÑÕÉ«
-	 int speed;
+	COLORREF color = RGB(0, 255, 0); // é£æœºé¢œè‰²
+	double speed, x=0, y=0;
+	int m;
 };
+
 class Meteorite
 {
 public:
-	int mx = 0, my = -40;			//ÔÉÊ¯×ø±ê
-	Meteorite();					//¹¹Ôìº¯Êı
-	void draw_meteorite();			//»æÖÆÔÉÊ¯
-	void meteoriteMove();			//ÔÉÊ¯ÒÆ¶¯
-private:
-	COLORREF color; // ÔÉÊ¯ÑÕÉ«
-	int speed;
+			//é™¨çŸ³åæ ‡
+	Meteorite();					//æ„é€ å‡½æ•°
+	Meteorite(double mx,double my,double speed);
+	void draw_meteorite();			//ç»˜åˆ¶é™¨çŸ³
+	void meteoriteMove();			//é™¨çŸ³ç§»åŠ¨
+	double &getMX();
+	double &getMY();
+	double &getMSpeed();
 
+private:
+	COLORREF color; // é™¨çŸ³é¢œè‰²
+	double mx , my ;
+	double speed;
 };
