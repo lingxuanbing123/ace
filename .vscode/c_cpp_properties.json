@@ -1,6 +1,7 @@
 {
   "configurations": [
     {
+
       "name": "windows-gcc-x64",
       "includePath": [
         "${workspaceFolder}/**"
@@ -10,6 +11,7 @@
           "${default}"
         ]
       },
+
       "compilerPath": "D:/new gcc/bin/gcc.exe",
       "cStandard": "${default}",
       "cppStandard": "${default}",
