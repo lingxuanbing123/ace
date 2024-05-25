@@ -99,6 +99,10 @@ HOMEMENU:
                         }
                         else if (stage.home == 1) // 如果按到了HOME
                         {
+                            // 清空子弹列表  
+                            bulletList.clear();  
+                            // 清空敌机列表  
+                            eplaneList.clear(); 
                             putimage(0, 0, &startImage); // 绘制菜单背景
                             goto HOMEMENU;               // 跳出循环回到主菜单
                         }
@@ -153,28 +157,38 @@ for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
 
     bool bulletRemoved = false;
 
-    for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
-    {
-        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5,(*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
-        {
-            delete *eplaneIter;
-            eplaneIter = eplaneList.erase(eplaneIter);
 
-            delete *bulletIter;
-            bulletIter = bulletList.erase(bulletIter);
-            bulletRemoved = true;
-            break;
-        }
-        else
-        {
-            ++eplaneIter;
-        }
-    }
+for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();) {  
+        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5,(*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50)) {  
+           
+            (*eplaneIter)->setHealth((*eplaneIter)->getHealth() - 1);           //   减少敌机的血量 
+  
+            // 检查敌机是否已经被摧毁（即血量是否减至0或以下）  
+            if ((*eplaneIter)->getHealth() <= 0) {  
+                delete *eplaneIter;  
+                eplaneIter = eplaneList.erase(eplaneIter);  
+            } else {  
+                // 如果敌机未被摧毁，则继续遍历下一个敌机  
+                ++eplaneIter;  
+            }  
+  
+            // 无论敌机是否被摧毁，都删除子弹并退出内部循环  
+            delete *bulletIter;  
+            bulletIter = bulletList.erase(bulletIter);  
+            bulletRemoved = true;  
+            break;  
+        } 
 
-    if (!bulletRemoved)
-    {
-        ++bulletIter;
-    }
+        else 
+        {  
+            ++eplaneIter;  
+        }  
+    }  
+  
+    if (!bulletRemoved) 
+    {  
+        ++bulletIter;  
+    }  
 }
 
 
