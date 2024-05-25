@@ -1,14 +1,4 @@
-//未来得及采用的敌机子弹方案，v2需完善
-
-
-
-
-
-/* #include  "BulletEnemy.h"
-BulletEnemy::BulletEnemy()
-{
-
-}
+#include  "BulletEnemy.h"
 BulletEnemy::BulletEnemy(int x, int y,int speed,int i)
 {
     this->x=x;
@@ -39,4 +29,4 @@ int& BulletEnemy::getSpeed() //子弹速度，参考速度为1
 int& BulletEnemy::getI()
 {
     return i;
-} */
+} 

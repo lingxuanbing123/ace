@@ -2,6 +2,7 @@
 #include <graphics.h>
 #include <conio.h>
 
+
 PlaneEnemy::PlaneEnemy()        
 {
 	color = RGB(0,255,0); 
@@ -88,6 +89,7 @@ void Meteorite::meteoriteMove()
 {
     this->my += (this->speed) / 5;
 }
+
 double &Meteorite::getMX()
 {
     return mx;

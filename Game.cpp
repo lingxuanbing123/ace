@@ -27,12 +27,13 @@ typedef int SOUND;
 Boom *pBoom;
 
 Node *pBullet_E;   // 敌机子弹
-Node *enemyPlane;  // 敌机
+PlaneEnemy *enemyPlane;  // 敌机
 Node *playerPlane; // 我机
 int boss = 0;      // 是否存在boss
 struct CoverButton CoverButton;
 struct Stage stage;
-
+list<BulletEnemy *> bulletEnemyList;
+BulletEnemy *pBulletEnemy=nullptr;
 // 碰撞检测函数
 bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22);
 
@@ -51,9 +52,9 @@ int main()
     srand((unsigned int)time(NULL)); // 随机数初始化
     IMAGE startImage, pauseImage, gameImage;
     initgraph(640, 800);
-    loadimage(&startImage, "D:\\git0\\ace\\rs\\start.bmp");
-    loadimage(&pauseImage, "D:\\git0\\ace\\rs\\pause.bmp");
-    loadimage(&gameImage, "D:\\git0\\ace\\rs\\game.bmp"); // 加载三个背景图
+    loadimage(&startImage, "E:\\test\\ace\\start.bmp");
+    loadimage(&pauseImage, "E:\\test\\ace\\pause.bmp");
+    loadimage(&gameImage, "E:\\test\\ace\\game.bmp"); // 加载三个背景图
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
@@ -130,7 +131,8 @@ HOMEMENU:
                     }
                     eplaneList.push_back(ePlane);
                 }
-
+                pBulletEnemy = new BulletEnemy(enemyPlane->getX(), enemyPlane->getY() + 10, 1, 5);
+                bulletEnemyList.push_back(pBulletEnemy);
                 playerPlane->draw(); // 绘制玩家飞机
 
                 if (_kbhit())
