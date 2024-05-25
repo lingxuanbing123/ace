@@ -49,7 +49,7 @@ bool planeEP(double x11, double y11, double x12, double y12, double x21, double 
 int main()
 {
     srand((unsigned int)time(NULL)); // 随机数初始化
-    IMAGE startImage, pauseImage, gameImage;
+    IMAGE startImage, pauseImage, gameImage,plane1, plane2, planeEnemy1, planeEnemy2,boss,bullet,bulletEnemy;
     initgraph(640, 800);
     loadimage(&startImage, "D:\\git0\\ace\\rs\\start.bmp");
     loadimage(&pauseImage, "D:\\git0\\ace\\rs\\pause.bmp");
@@ -154,7 +154,7 @@ for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
 
     for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
     {
-        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5,(*eplaneIter)->getX() - 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY() + 30))
+        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5,(*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
         {
             delete *eplaneIter;
             eplaneIter = eplaneList.erase(eplaneIter);
@@ -197,7 +197,7 @@ for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
                     (*eplaneIter)->draw((*eplaneIter)->getM());
                     (*eplaneIter)->move();
 
-                    if (planeEP(playerPlane->getX() - 20, playerPlane->getY(), playerPlane->getX() + 20, playerPlane->getY() + 30, (*eplaneIter)->getX() - 20, (*eplaneIter)->getY(), (*eplaneIter)->getX() + 20, (*eplaneIter)->getY() + 30))
+                    if (planeEP(playerPlane->getX(), playerPlane->getY(), playerPlane->getX() + 46, playerPlane->getY() + 40, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
                     {
                         delete *eplaneIter;
                         eplaneIter = eplaneList.erase(eplaneIter);

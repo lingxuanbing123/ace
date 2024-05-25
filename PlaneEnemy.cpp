@@ -9,6 +9,8 @@ PlaneEnemy::PlaneEnemy()
     this->y = y;
     this->speed = speed;
     this->m = m;
+    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
 }
 
 PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  
@@ -16,20 +18,24 @@ PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)
     this->x = x;
     this->y = y;
     this->speed = speed;
-    this->m = m;           
+    this->m = m;
+    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
 }
 void PlaneEnemy::draw(int m)
 {
     switch (m)          
     {
         case 1:
-    setfillcolor(color);
-    solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
+            putimage(this->x, this->y, &planeEnemy12, SRCAND);
+            putimage(this->x, this->y, &planeEnemy1, SRCPAINT);
+            /*     setfillcolor(color);
+                solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
 
-    setfillcolor(RGB(0, 0, 255));                 
-    solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40); 
-    solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40); 
-    break;
+                setfillcolor(RGB(0, 0, 255));
+                solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40);
+                solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40);  */
+            break;
     case 2:
         setfillcolor(RGB(128, 128, 128));
         solidcircle(x, y, 20);
