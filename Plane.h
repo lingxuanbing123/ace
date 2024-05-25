@@ -12,12 +12,13 @@ public:
     int &getX();        // 获取x
     int &getY();        // 获取y
     int &getSpeed();    // 获取speed
+    int &setSpeed();
+
 protected:
     IMAGE plane1,plane12, plane2,plane22;    
-    int &setSpeed();
 private:
 /*     COLORREF color = RGB(255, 0, 0); // 设置飞机颜色为红色; // 飞机颜色 */
-    int x = 320, y = 380, speed = 8;
+    int x = 320, y = 380, speed = 12;
     /* protected:
         int x, y;  // 飞机坐标
         int speed; // 飞机速度 */

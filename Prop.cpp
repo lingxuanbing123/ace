@@ -1,4 +1,4 @@
-#include <stdio.h>
+/* #include <stdio.h>
 #include "Prop.h"
 #include "Plane.h"
 #include <iostream>
@@ -109,3 +109,4 @@ void Prop::prop_generate()
         }
         }
 }
+ */

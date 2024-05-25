@@ -119,7 +119,7 @@ HOMEMENU:
                     switch (pos)
                     {
                     case 0 ... 49:
-                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 10 + 3, 1);
+                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
                         break;
                     case 50:
                     case 51:
@@ -140,7 +140,7 @@ HOMEMENU:
                     playerPlane->move(key);         // 移动玩家飞机
                     if (GetAsyncKeyState(VK_SPACE)) // 创建子弹
                     {
-                        pBullet = new Bullet(playerPlane->getX(), playerPlane->getY() - 10, 1, 5);
+                        pBullet = new Bullet(playerPlane->getX()+23, playerPlane->getY() - 10, 1, 5);
                         bulletList.push_back(pBullet);
                     }
                 }
