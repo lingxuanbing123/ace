@@ -9,6 +9,9 @@
 #include <mmsystem.h>
 #include <graphics.h>
 #include <list>
+#include <ctime>
+#include <cstdlib>
+#include <thread>
 using namespace std;
 
 // Include necessary headers
@@ -46,6 +49,18 @@ bool planeEP(double x11, double y11, double x12, double y12, double x21, double 
     else
         return true;
 }
+bool isColliding(int x1, int y1, int r, int x, int y)
+{
+    if (x1 + r < x || x + 46 < x - r)
+    {
+        return false; // 水平方向没有重叠
+    }
+    if (y1 + r < y || y + 40 < y1 - r)
+    {
+        return false; // 垂直方向没有重叠
+    }
+    return true; // 发生碰撞
+}
 
 int main()
 {
@@ -58,8 +73,10 @@ int main()
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
+    list<Prop *> propList;                                //创建链表以记录道具
     Bullet *pBullet = nullptr;                            // 创建迭代器
     PlaneEnemy *ePlane = nullptr;
+    Prop *pProp = nullptr;
 
     stage.pause = 0; // 界面相关参数
     stage.game = 0;
@@ -70,6 +87,7 @@ int main()
     CoverButton.button_level1 = 0;
     CoverButton.button_level2 = 0; // 初始化参数
     int a;
+    int prop1 = 0,prop2=0;
 
 HOMEMENU:
     while (!CoverButton.button_quit) // 只要没有按到QUIT
@@ -118,7 +136,7 @@ HOMEMENU:
                 // 用随机数生成决定敌机种类 敌：陨石：道具=50:2:1
                 if (eplaneList.size() < 5)
                 {
-                    int pos = rand() % 53; // 0-52
+                    int pos = rand() % 52; // 0-51
                     switch (pos)
                     {
                     case 0 ... 49:
@@ -128,11 +146,20 @@ HOMEMENU:
                     case 51:
                         ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 10 + 3, 2);
                         break;
-                    case 52:
-                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, rand() % 8 * 100 + 50, 0, 3);
-                        break;
                     }
                     eplaneList.push_back(ePlane);
+                }
+                if(propList.size()<1){
+                    int posp = rand() % 53;
+                    switch (posp){
+                    case 0 ...26:
+                        pProp = new Prop(rand() % 561 + 40, rand() % 701 + 50,1,1);
+                        break;
+                        case 27 ...52:
+                        pProp = new Prop(rand() % 561 + 40, rand() % 701 + 50,1,2);
+                        break;
+                        }
+                    propList.push_back(pProp);
                 }
 
                 playerPlane->draw(); // 绘制玩家飞机
@@ -143,56 +170,68 @@ HOMEMENU:
                     playerPlane->move(key);         // 移动玩家飞机
                     if (GetAsyncKeyState(VK_SPACE)) // 创建子弹
                     {
-                        pBullet = new Bullet(playerPlane->getX() + 23, playerPlane->getY() - 10, 1, 5);
+                        pBullet = new Bullet(playerPlane->getX() + 28, playerPlane->getY() - 10, 1, 5);
                         bulletList.push_back(pBullet);
                     }
                 }
 
-                // 检测子弹与敌机的碰撞
-                for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
+                for (auto propIter = propList.begin();propIter!=propList.end();)
                 {
-                    (*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
-                    (*bulletIter)->moveBullet();
-
-                    bool bulletRemoved = false;
-
-                    for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
-                    {
-                        if (planeEP((*bulletIter)->getX() - 2.5, (*bulletIter)->getY() - 2.5, (*bulletIter)->getX() + 2.5, (*bulletIter)->getY() + 2.5, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
+                        (*propIter)->drawProp();
+                        if (planeEP(playerPlane->getX(), playerPlane->getY(), playerPlane->getX() + 46, playerPlane->getY() + 40, (*propIter)->getX(), (*propIter)->getY(), (*propIter)->getX() + 23, (*propIter)->getY() + 27))
                         {
+                            delete *propIter;
+                            propIter = propList.erase(propIter);
+                        }
+                        else {
+                            propIter++;
+                        }
+                }
 
-                            (*eplaneIter)->setHealth((*eplaneIter)->getHealth() - 1); //   减少敌机的血量
+                    // 检测子弹与敌机的碰撞
+                    for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
+                    {
+                        (*bulletIter)->drawBullet((*bulletIter)->getX(), (*bulletIter)->getY());
+                        (*bulletIter)->moveBullet();
 
-                            // 检查敌机是否已经被摧毁（即血量是否减至0或以下）
-                            if ((*eplaneIter)->getHealth() <= 0)
+                        bool bulletRemoved = false;
+                        for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
+                        {
+                            if (planeEP((*bulletIter)->getX() , (*bulletIter)->getY() , (*bulletIter)->getX() + 8, (*bulletIter)->getY() + 8, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
                             {
-                                delete *eplaneIter;
-                                eplaneIter = eplaneList.erase(eplaneIter);
+
+                                (*eplaneIter)->setHealth((*eplaneIter)->getHealth() - 1); //   减少敌机的血量
+
+                                // 检查敌机是否已经被摧毁（即血量是否减至0或以下）
+                                if ((*eplaneIter)->getHealth() <= 0)
+                                {
+                                    delete *eplaneIter;
+                                    eplaneIter = eplaneList.erase(eplaneIter);
+                                }
+                                else
+                                {
+                                    // 如果敌机未被摧毁，则继续遍历下一个敌机
+                                    ++eplaneIter;
+                                }
+
+                                // 无论敌机是否被摧毁，都删除子弹并退出内部循环
+                                delete *bulletIter;
+                                bulletIter = bulletList.erase(bulletIter);
+                                bulletRemoved = true;
+                                break;
                             }
+
                             else
                             {
-                                // 如果敌机未被摧毁，则继续遍历下一个敌机
                                 ++eplaneIter;
                             }
-
-                            // 无论敌机是否被摧毁，都删除子弹并退出内部循环
-                            delete *bulletIter;
-                            bulletIter = bulletList.erase(bulletIter);
-                            bulletRemoved = true;
-                            break;
                         }
 
-                        else
+                        if (!bulletRemoved)
                         {
-                            ++eplaneIter;
+                            ++bulletIter;
                         }
                     }
-
-                    if (!bulletRemoved)
-                    {
-                        ++bulletIter;
-                    }
-                }
 
                 // 子弹打出屏幕后进行消除
                 for (auto bulletIter = bulletList.begin(); bulletIter != bulletList.end();)
@@ -232,6 +271,7 @@ HOMEMENU:
                     }
                 }
 
+
                 EndBatchDraw();
                 if (a == 1)
                 {
@@ -239,6 +279,7 @@ HOMEMENU:
                     bulletList.clear();
                     // 清空敌机列表
                     eplaneList.clear();
+                    propList.clear();
                     stage.home = 1;
                     stage.game = 0;
                     putimage(0, 0, &startImage);
