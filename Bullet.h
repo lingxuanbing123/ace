@@ -13,6 +13,8 @@ public:
    double &getY();                      // 子弹坐标y
    double &getSpeed();                  // 子弹速度speed
    double &getI();                      // 子弹半径，v2应替换为贴图相关数据
+protected:
+   IMAGE bu1, bu12;
 private:
    double x; // 子弹坐标
    double y;

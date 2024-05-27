@@ -1,4 +1,37 @@
 #include "Plane.h"
+#include <stdio.h>
+#include "Prop.h"
+#include "Plane.h"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <chrono>
+#include <thread>
+#include "Game.h"
+
+/* auto hitTime = std::chrono::steady_clock::now(); // 记录时间
+void Plane::playerPlane_accelerator(bool z)          //加速效果：移速增加
+{
+    if(this->speed<=20)
+    setSpeed();
+} */
+/* void Plane::playerPlane_shield(bool z) // 护盾效果：五秒无敌
+{
+    while (true)
+    {
+        invincible = true;             // 己方飞机被击中，进入无敌状态
+        hitTime = std::chrono::steady_clock::now(); // 更新被击中时间
+        if (invincible)
+        {
+            auto now = std::chrono::steady_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - hitTime);
+            if (duration.count() >= 5)
+            {
+                invincible = false; // 超过5秒，取消己方飞机的无敌状态
+            }
+        }
+    }
+} */
 Plane::Plane() // 飞机获取相关参数
 {
     /*     color = RGB(255, 0, 0); // 设置飞机颜色为红色 */
@@ -45,12 +78,12 @@ void Plane::move(char key) // 移动相关函数，后续如有必要可改成�
     }
     if (GetAsyncKeyState(VK_LEFT) || GetAsyncKeyState('A'))
     {
-        if (x > 40)
+        if (x > 0)
             this->x -= speed;
     }
     if (GetAsyncKeyState(VK_RIGHT) || GetAsyncKeyState('D'))
     {
-        if (x < 640)
+        if (x < 600)
             this->x += speed;
     }
 }
@@ -71,4 +104,7 @@ int &Plane::setSpeed()
 {
     speed += 2;
     return speed;
+}
+bool &Plane::getinvincible(){
+    return invincible;
 }

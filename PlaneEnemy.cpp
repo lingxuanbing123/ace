@@ -29,20 +29,10 @@ void PlaneEnemy::draw(int m)
         case 1:
             putimage(this->x, this->y, &planeEnemy12, SRCAND);
             putimage(this->x, this->y, &planeEnemy1, SRCPAINT);
-            /*     setfillcolor(color);
-                solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
-
-                setfillcolor(RGB(0, 0, 255));
-                solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40);
-                solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40);  */
             break;
     case 2:
         setfillcolor(RGB(128, 128, 128));
-        solidcircle(x, y, 20);
-        break;
-    case 3:
-        setfillcolor(YELLOW);
-        solidcircle(x, y, 10);
+        solidcircle(this->x+23,this-> y+20, 20);
         break;
     }
 }
