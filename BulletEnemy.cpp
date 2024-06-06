@@ -1,14 +1,14 @@
 #include  "BulletEnemy.h"
-BulletEnemy::BulletEnemy(int x, int y,int speed,int i)
+BulletEnemy::BulletEnemy(int x, double y,double speed,int i)
 {
     this->x=x;
     this->y=y;
     this->speed=speed;
 }
-void BulletEnemy::drawBulletEnemy() //绘制子弹,敌方子弹为红色实心圆
+void BulletEnemy::drawBulletEnemy(double x,double y) //绘制子弹,敌方子弹为红色实心圆
 {
     setfillcolor(RED);
-    solidcircle(x, y, i);
+    solidcircle(x, y, 5);
 }
 void BulletEnemy::moveBulletEnemy() //移动子弹,敌方子弹只往下移动
 {
@@ -18,11 +18,11 @@ int& BulletEnemy::getX() //子弹坐标
 {
     return x;
 }
-int& BulletEnemy::getY()
+double& BulletEnemy::getY()
 {
     return y;
 }
-int& BulletEnemy::getSpeed() //子弹速度，参考速度为1
+double& BulletEnemy::getSpeed() //子弹速度，参考速度为1
 {
     return speed;
 }

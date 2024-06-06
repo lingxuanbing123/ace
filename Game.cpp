@@ -8,7 +8,9 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <graphics.h>
+#include <thread>
 #include <list>
+#include <time.h>
 using namespace std;
 
 // Include necessary headers
@@ -33,8 +35,21 @@ Node *playerPlane; // 我机
 int boss = 0;      // 是否存在boss
 struct CoverButton CoverButton;
 struct Stage stage;
-list<BulletEnemy *> bulletEnemyList;
-BulletEnemy *pBulletEnemy=nullptr;
+
+int Timer()
+{
+    static DWORD t1,t2;
+    while(1)
+    {if (t2-t1>63)
+    {
+        t1=t2;
+        return 1;
+    }
+    t2 = clock();
+    return 0;
+    }
+}
+
 // 碰撞检测函数
 bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22);
 
@@ -53,15 +68,16 @@ int main()
     srand((unsigned int)time(NULL)); // 随机数初始化
     IMAGE startImage, pauseImage, gameImage, plane1, plane2, planeEnemy1, planeEnemy2, boss, bullet, bulletEnemy;
     initgraph(640, 800);
-    loadimage(&startImage, "E:\\test\\ace\\start.bmp");
-    loadimage(&pauseImage, "E:\\test\\ace\\pause.bmp");
-    loadimage(&gameImage, "E:\\test\\ace\\game.bmp"); // 加载三个背景图
+    loadimage(&startImage, "E:\\test\\ace\\rs\\start.bmp");
+    loadimage(&pauseImage, "E:\\test\\ace\\rs\\pause.bmp");
+    loadimage(&gameImage, "E:\\test\\ace\\rs\\game.bmp"); // 加载三个背景图
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
     Bullet *pBullet = nullptr;                            // 创建迭代器
     PlaneEnemy *ePlane = nullptr;
-
+    list<BulletEnemy *> bulletEnemyList;
+    BulletEnemy *pBulletEnemy=nullptr;
     stage.pause = 0; // 界面相关参数
     stage.game = 0;
     stage.home = 1;
@@ -118,13 +134,31 @@ HOMEMENU:
 
                 // 用随机数生成决定敌机种类 敌：陨石：道具=50:2:1
                 if (eplaneList.size() < 5)
-                {
-                    int pos = rand() % 53; // 0-52
-                    switch (pos)
+                {int pos =rand()%52;
+              switch (pos)
                     {
                     case 0 ... 49:
-                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
-                        break;
+                        {ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
+/* while(1){
+                    if(Timer(500))
+                    {
+    pBulletEnemy = new BulletEnemy(enemyPlane->getX() + 23, enemyPlane->getY() + 10, 4, 1);
+    bulletEnemyList.push_back(pBulletEnemy);
+      for (auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)
+                {
+                    if ((*bulletEnemyIter)->getY() > 810)
+                    {
+                        delete *bulletEnemyIter;
+                        bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
+                    }
+                    else
+                    {
+                        ++bulletEnemyIter;
+                    }
+                }
+                    }
+                    } */
+                        break;}
                     case 50:
                     case 51:
                         ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 10 + 3, 2);
@@ -135,8 +169,8 @@ HOMEMENU:
                     }
                     eplaneList.push_back(ePlane);
                 }
-                pBulletEnemy = new BulletEnemy(enemyPlane->getX(), enemyPlane->getY() + 10, 1, 5);
-                bulletEnemyList.push_back(pBulletEnemy);
+                /* pBulletEnemy = new BulletEnemy(enemyPlane->getX(), enemyPlane->getY() + 10, 1, 5);
+                bulletEnemyList.push_back(pBulletEnemy); */
                 playerPlane->draw(); // 绘制玩家飞机
 
                 if (_kbhit())
@@ -209,13 +243,28 @@ HOMEMENU:
                         ++bulletIter;
                     }
                 }
-
+              
                 // 画敌机，对敌机位置和我方位置进行判断
                 for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
                 {
                     (*eplaneIter)->draw((*eplaneIter)->getM());
                     (*eplaneIter)->move();
+                    if(Timer())
+                    {
+                    pBulletEnemy = new BulletEnemy((*eplaneIter)->getX() + 23, (*eplaneIter)->getY() + 50, 0.1, 1);
+                    bulletEnemyList.push_back(pBulletEnemy);
+                    }
+                     for(auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)        
+                    {
+                    (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
+                    (*bulletEnemyIter)->moveBulletEnemy();
+                    ++bulletEnemyIter;
+                    }
 
+                  
+                   
+            
+            
                     if (planeEP(playerPlane->getX(), playerPlane->getY(), playerPlane->getX() + 46, playerPlane->getY() + 40, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
                     {
                         delete *eplaneIter;
@@ -231,6 +280,26 @@ HOMEMENU:
                     else
                     {
                         ++eplaneIter;
+                    }
+                }
+
+                    for(auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)        
+                    {
+                    (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
+                    (*bulletEnemyIter)->moveBulletEnemy();
+                    ++bulletEnemyIter;
+                    }
+
+                for (auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)
+                {
+                    if ((*bulletEnemyIter)->getY() > 810)
+                    {
+                        delete *bulletEnemyIter;
+                        bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
+                    }
+                    else
+                    {
+                        ++bulletEnemyIter;
                     }
                 }
 
@@ -261,5 +330,6 @@ HOMEMENU:
 
 CLOSE:
     closegraph(); // 关闭图形界面
+
     return 0;
 }

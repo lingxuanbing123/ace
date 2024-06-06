@@ -10,8 +10,8 @@ PlaneEnemy::PlaneEnemy()
     this->y = y;
     this->speed = speed;
     this->m = m;
-    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
-    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
+    loadimage(&planeEnemy1, "E:\\test\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "E:\\test\\ace\\rs\\image\\32.png");
 }
 
 PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  
@@ -20,8 +20,8 @@ PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)
     this->y = y;
     this->speed = speed;
     this->m = m;
-    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
-    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
+    loadimage(&planeEnemy1, "E:\\test\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "E:\\test\\ace\\rs\\image\\32.png");
 }
 void PlaneEnemy::draw(int m)
 {
