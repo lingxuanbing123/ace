@@ -9,7 +9,8 @@ int GetCommand(void)												//得到按键，上下左右
 	{
 		c |= CMD_ESC;
 		stage.pause = 1;
-		stage.game = 0;
+		stage.game1 = 0;
+		stage.game2 = 0;
 		stage.home = 0;
 	}
 	return c;
@@ -44,7 +45,8 @@ void MouseListener(void) {
 				{
 					CoverButton.button_quit = 0;       //在QUIT处松开鼠标，状态既不是暂停界面，也不是游戏界面，直接退出
 					stage.pause = 0;
-					stage.game = 0;
+					stage.game1 = 0;
+					stage.game2 = 0;
 					stage.home = 0;
 				}
 				else if (CONTINUE_SCOPE)
@@ -52,19 +54,22 @@ void MouseListener(void) {
 					CoverButton.button_continue = 0;            //在CONTINUE处松开鼠标，继续游戏
 					stage.pause = 0;
 					stage.home = 0;
-					stage.game = 1;
-
+					stage.game1 = 1;
+					stage.game2 = 1;
 				}
 				else if (HOME_SCOPE)
 				{
 					CoverButton.button_home = 0;              //在HOME处松开鼠标，进入HOME界面
                     stage.pause = 0;
-                    stage.game = 0;
+                    stage.game1 = 0;
+					stage.game2 = 0;
 					stage.home = 1;
 				}
 			break;
 		}
 	}
+
+
 	if (MouseHit() && stage.home) {                    //如果按下鼠标且在主菜单界面
 		m = GetMouseMsg();                               //获取鼠标事件
 		switch (m.uMsg) {
@@ -86,25 +91,66 @@ void MouseListener(void) {
 			if (LEVEL1_SCOPE)
 			{
 				CoverButton.button_level1 = 0;            //按钮熄
-				stage.pause = 0;                     //在LEVEL1处松开鼠标，进入第一关
-				stage.game = 1;
+				stage.pause = 0;                     //在LEVEL1处松开鼠标，进入飞机选择，之后进入第一关
+				stage.game1 = 0;
+				stage.game2 = 0;
 				stage.home = 0;
+				stage.choose = 1;
 			}
 			else if (LEVEL2_SCOPE)
 			{
 				CoverButton.button_level2 = 0;            //按钮熄
 				stage.pause = 0;                     
-				stage.game = 1;                      //在LEVEL2处松开鼠标，进入第二关
+				stage.game1 = 0; 
+				stage.game2 = 0;                     //在LEVEL2处松开鼠标，进入飞机选择,之后进入第二关
 				stage.home = 0;
+				stage.choose = 2;
 			}
 			else if (QUIT1_SCOPE)
 			{
 				CoverButton.button_quit = 0;             //按钮熄
                 stage.pause = 0;                     //在QUIT处松开鼠标，退出游戏
-                stage.game = 0;
+                stage.game1 = 0;
+				stage.game2 = 0;
                 stage.home = 0;
 			}
         break;
 		}
 	}
+
+
+
+	if(MouseHit() && (stage.choose == 1 || stage.choose == 2)){            
+		m = GetMouseMsg();                              
+		switch (m.uMsg){
+/* 			case WM_LBUTTONDOWN:
+				if(CHOOSE1_SCOPE){
+					CoverButton.button_choose1 = 1;
+				}
+				else{
+					CoverButton.button_choose1 = 0;
+				} 
+				if(CHOOSE2_SCOPE){
+					CoverButton.button_choose2 = 1;
+				}
+				else{
+					CoverButton.button_choose2 = 0;
+				}
+			break; */
+			case WM_LBUTTONUP: 
+				if(CHOOSE1_SCOPE){
+					CoverButton.button_choose1 = 1;
+					CoverButton.button_choose2 = 0;
+					stage.choose = 0;
+				}
+				else if(CHOOSE2_SCOPE){
+					CoverButton.button_choose2 = 1;
+					CoverButton.button_choose1 = 0;
+					stage.choose = 0;
+				}
+			break;
+		}
+	}
+
+
 }
