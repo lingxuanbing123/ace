@@ -58,21 +58,21 @@ double &PlaneEnemy::getSpeed()
     return speed;
 }
 
-int PlaneEnemy::getHealth() const 
+double PlaneEnemy::getHealth() const 
 { 
     return health;
 }
 
-void PlaneEnemy::setHealth(int newHealth) 
+void PlaneEnemy::setHealth(double newHealth) 
 { 
-    if (newHealth >= 0) health = newHealth; 
+     health = newHealth; 
 }
 
 
 
 
 
-Meteorite::Meteorite()
+/* Meteorite::Meteorite()
 {
 
     color = RGB(128,128,128);   
@@ -109,4 +109,4 @@ double &Meteorite::getMY()
 double &Meteorite::getMSpeed()
 {
     return speed;
-}
+} */

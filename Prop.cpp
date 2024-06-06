@@ -70,6 +70,11 @@ int &Prop::getY()
     return y;
 }
 
+int &Prop::getModel()
+{
+    return model;
+}
+
 /*  void Prop::playerPlane_shield()               //护盾效果：五秒无敌
 {
      while (true) {

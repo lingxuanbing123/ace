@@ -108,3 +108,6 @@ int &Plane::setSpeed()
 bool &Plane::getinvincible(){
     return invincible;
 }
+void Plane::setinvincible(bool z){
+        invincible = z;
+}

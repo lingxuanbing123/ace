@@ -11,9 +11,9 @@ public:
 	double &getY();
 	int &getM();
 	double &getSpeed();
-	int getHealth() const; // 返回血量  
-    void setHealth(int health); // 设置血量      
-	int health = 2;    //       小飞机血量为4
+	double getHealth() const; // 返回血量  
+    void setHealth(double health); // 设置血量      
+	double health = 4;    //       小飞机血量为4
 protected:
 	IMAGE planeEnemy1, planeEnemy12, planeEnemy2, planeEnemy22;
 private:
@@ -25,7 +25,7 @@ private:
 
 
 
-class Meteorite
+/* class Meteorite
 {
 public:
 	// 陨石坐标
@@ -41,4 +41,4 @@ private:
 	COLORREF color; // 陨石颜色
 	double mx , my ;
 	double speed;
-};
+}; */

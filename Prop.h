@@ -13,7 +13,7 @@ public:
     void prop_acquire();    //道具获得
     int &getX();        // 获取x
     int &getY();        // 获取y
-    int &getR();   //判断是否画
+    int &getModel();   //判断是否画
 protected:
     IMAGE prop1, prop12, prop2, prop22;
 private:
