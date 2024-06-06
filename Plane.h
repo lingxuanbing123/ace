@@ -23,7 +23,9 @@ protected:
     IMAGE plane1,
         plane12,
         plane2,
-        plane22;
+        plane22,
+        dun1,
+        dun2;
 
 private:
 /*     COLORREF color = RGB(255, 0, 0); // 设置飞机颜色为红色; // 飞机颜色 */
