@@ -5,6 +5,11 @@
       "includePath": [
         "${workspaceFolder}/**"
       ],
+      "browse": {
+        "path": [
+          "${default}"
+        ]
+      },
       "compilerPath": "D:/new gcc/bin/gcc.exe",
       "cStandard": "${default}",
       "cppStandard": "${default}",
