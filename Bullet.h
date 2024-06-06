@@ -12,10 +12,16 @@ public:
    double &getX();                      // 子弹坐标x
    double &getY();                      // 子弹坐标y
    double &getSpeed();                  // 子弹速度speed
-   double &getI();                      // 子弹半径，v2应替换为贴图相关数据
+   double &getHarm();                      // 获取伤害
+   void setHarm(int s);             //改变伤害
+
+
+protected:
+   IMAGE bu1, bu12;
+   double harm;
+
 private:
    double x; // 子弹坐标
    double y;
    double speed; // 子弹速度
-   double i;     // 子弹半径
 };

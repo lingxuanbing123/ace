@@ -10,8 +10,8 @@ PlaneEnemy::PlaneEnemy()
     this->y = y;
     this->speed = speed;
     this->m = m;
-    loadimage(&planeEnemy1, "E:\\test\\ace\\rs\\image\\3.png");
-    loadimage(&planeEnemy12, "E:\\test\\ace\\rs\\image\\32.png");
+    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
 }
 
 PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)  
@@ -20,8 +20,8 @@ PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)
     this->y = y;
     this->speed = speed;
     this->m = m;
-    loadimage(&planeEnemy1, "E:\\test\\ace\\rs\\image\\3.png");
-    loadimage(&planeEnemy12, "E:\\test\\ace\\rs\\image\\32.png");
+    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
 }
 void PlaneEnemy::draw(int m)
 {
@@ -30,20 +30,10 @@ void PlaneEnemy::draw(int m)
         case 1:
             putimage(this->x, this->y, &planeEnemy12, SRCAND);
             putimage(this->x, this->y, &planeEnemy1, SRCPAINT);
-            /*     setfillcolor(color);
-                solidrectangle(this->x + 20, this->y,this-> x - 20, this->y - 30);
-
-                setfillcolor(RGB(0, 0, 255));
-                solidrectangle(this ->x + 10, this->y  - 30, this ->x + 5, this->y - 40);
-                solidrectangle(this ->x  - 5, this ->y - 30, this ->x - 10,this-> y - 40);  */
             break;
     case 2:
         setfillcolor(RGB(128, 128, 128));
-        solidcircle(x, y, 20);
-        break;
-    case 3:
-        setfillcolor(YELLOW);
-        solidcircle(x, y, 10);
+        solidcircle(this->x+23,this-> y+20, 20);
         break;
     }
 }
@@ -69,21 +59,21 @@ double &PlaneEnemy::getSpeed()
     return speed;
 }
 
-int PlaneEnemy::getHealth() const 
+double PlaneEnemy::getHealth() const 
 { 
     return health;
 }
 
-void PlaneEnemy::setHealth(int newHealth) 
+void PlaneEnemy::setHealth(double newHealth) 
 { 
-    if (newHealth >= 0) health = newHealth; 
+     health = newHealth; 
 }
 
 
 
 
 
-Meteorite::Meteorite()
+/* Meteorite::Meteorite()
 {
 
     color = RGB(128,128,128);   
@@ -121,4 +111,4 @@ double &Meteorite::getMY()
 double &Meteorite::getMSpeed()
 {
     return speed;
-}
+} */
