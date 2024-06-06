@@ -5,60 +5,42 @@ class PlaneEnemy
 public:
 	PlaneEnemy();
 	PlaneEnemy(double x, double y, double speed, int m);
-	void draw(int m); // ï¿½ï¿½ï¿½Æ·É»ï¿½
-	void move();	  // ï¿½Æ¶ï¿½ï¿½É»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ°ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
+	void draw(int m);
+	void move();
 	double &getX();
 	double &getY();
 	int &getM();
 	double &getSpeed();
-	int getHealth() const; // ï¿½ï¿½ï¿½ï¿½Ñªï¿½ï¿½  
-    void setHealth(int health); // ï¿½ï¿½ï¿½ï¿½Ñªï¿½ï¿½      
-	int health1 = 2;    //       Ğ¡ï¿½É»ï¿½Ñªï¿½ï¿½Îª4
-	int health2 = 4;
+	double getHealth() const;	   // ?
+	void setHealth(double health); // ?
+	double health1 = 4;			   //       ????4
+	int health2 = 8;
 protected:
 	IMAGE planeEnemy1, planeEnemy12, planeEnemy2, planeEnemy22,planeEnemy3, planeEnemy32;
 private:
-	COLORREF color = RGB(0, 255, 0); // ï¿½É»ï¿½ï¿½ï¿½É«
-	double speed, x=0, y=0;
+	COLORREF color = RGB(0, 255, 0);
+	double speed, x = 0, y = 0;
 	int m;
 };
 
 
 
-//æ•ŒæœºBOSS
+//??BOSS
 class EnemyBoss
 {
 public:
 	EnemyBoss();
 	EnemyBoss(double x, double y);
-	void draw(); // ï¿½ï¿½ï¿½Æ·É»ï¿½
+	void draw(); // ??
 	double &getX();
 	double &getY();
-	int getHealth() const; // ï¿½ï¿½ï¿½ï¿½Ñªï¿½ï¿½  
-    void setHealth(int health); // ï¿½ï¿½ï¿½ï¿½Ñªï¿½ï¿½      
-	int health = 10;    //       Ğ¡ï¿½É»ï¿½Ñªï¿½ï¿½Îª4
+	int getHealth() const; // ?  
+    void setHealth(int health); // ?      
+	int health = 10;    //       ????4
 protected:
 	IMAGE planeEnemy3, planeEnemy32;
 private:
-	COLORREF color = RGB(0, 255, 0); // ï¿½É»ï¿½ï¿½ï¿½É«
+	COLORREF color = RGB(0, 255, 0); // ??
 	double  x=0, y=0;
 };
 
-
-class Meteorite
-{
-public:
-	// ï¿½ï¿½Ê¯ï¿½ï¿½ï¿½ï¿½
-	Meteorite(); // ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
-	Meteorite(double mx, double my, double speed);
-	void draw_meteorite(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¯
-	void meteoriteMove();  // ï¿½ï¿½Ê¯ï¿½Æ¶ï¿½
-	double &getMX();
-	double &getMY();
-	double &getMSpeed();
-
-private:
-	COLORREF color; // ï¿½ï¿½Ê¯ï¿½ï¿½É«
-	double mx , my ;
-	double speed;
-};

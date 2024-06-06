@@ -18,9 +18,16 @@ public:
     int &getSpeed();    // 获取speed
     int &setSpeed();
     bool &getinvincible();
+    void setinvincible(bool z);
 
 protected:
-    IMAGE plane1,plane12, plane2,plane22;    
+    IMAGE plane1,
+        plane12,
+        plane2,
+        plane22,
+        dun1,
+        dun2;
+
 private:
     int x = 320, y = 380, speed = 12;
 };

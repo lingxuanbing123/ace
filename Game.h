@@ -141,3 +141,4 @@ extern int num[10];
 extern int boss; // 是否存在boss
 extern struct Stage stage;
 extern struct CoverButton CoverButton;
+

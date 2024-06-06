@@ -22,18 +22,18 @@ Prop::Prop()
     this->x = x;
     this->y = y;
     this->model = model;
-    loadimage(&prop1, "D:\\Git warehouse\\github\\ace\\rs\\image\\prop1.png");
-    loadimage(&prop2, "D:\\Git warehouse\\github\\ace\\rs\\image\\prop2.png");
+    loadimage(&prop1, "D:\\git0\\ace\\rs\\image\\prop1.png");
+    loadimage(&prop2, "D:\\git0\\ace\\rs\\image\\prop2.png");
 }
 Prop::Prop(int x, int y,int r,int model){
     this->x = x;
     this->y = y;
     this->r = r;
     this->model = model;
-    loadimage(&prop1, "D:\\Git warehouse\\github\\ace\\rs\\image\\prop1.png");
-    loadimage(&prop12, "D:\\Git warehouse\\github\\ace\\rs\\image\\prop12.png");
-    loadimage(&prop2, "D:\\Git warehouse\\github\\ace\\rs\\image\\prop2.png");
-    loadimage(&prop22, "D:\\Git warehouse\\github\\ace\\rs\\image\\prop22.png");
+    loadimage(&prop1, "D:\\git0\\ace\\rs\\image\\prop1.png");
+    loadimage(&prop12, "D:\\git0\\ace\\rs\\image\\prop12.png");
+    loadimage(&prop2, "D:\\git0\\ace\\rs\\image\\prop2.png");
+    loadimage(&prop22, "D:\\git0\\ace\\rs\\image\\prop22.png");
 }
 
 // 生成随机数的函数
@@ -68,6 +68,11 @@ int &Prop::getX()
 int &Prop::getY()
 {
     return y;
+}
+
+int &Prop::getModel()
+{
+    return model;
 }
 
 /*  void Prop::playerPlane_shield()               //护盾效果：五秒无敌
