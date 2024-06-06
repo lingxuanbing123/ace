@@ -40,6 +40,8 @@ Plane::Plane() // 飞机获取相关参数
     this->speed = speed;
     loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
     loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
+    loadimage(&dun1, "D:\\git0\\ace\\rs\\image\\dun1.png");
+    loadimage(&dun2, "D:\\git0\\ace\\rs\\image\\dun2.png");
 }
 
 Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
@@ -49,6 +51,8 @@ Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
     this->speed = speed;
     loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
     loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
+    loadimage(&dun1, "D:\\git0\\ace\\rs\\image\\dun1.png");
+    loadimage(&dun2, "D:\\git0\\ace\\rs\\image\\dun2.png");
 }
 void Plane::draw()
 {
@@ -62,6 +66,11 @@ void Plane::draw()
         solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎 */
     putimage(this->x, this->y, &plane12, SRCAND);
     putimage(this->x, this->y, &plane1, SRCPAINT);
+    if (invincible) {
+        putimage(this->x, this->y, &dun2, SRCAND);
+        putimage(this->x, this->y,&dun1, SRCPAINT);
+    }
+
 }
 
 void Plane::move(char key) // 移动相关函数，后续如有必要可改成其他方式

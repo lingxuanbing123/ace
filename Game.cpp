@@ -44,7 +44,7 @@ int Timer()
 {
     static DWORD t1,t2;
     while(1)
-    {if (t2-t1>63)
+    {if (t2-t1>350)
     {
         t1=t2;
         return 1;
@@ -180,7 +180,7 @@ HOMEMENU:
                     switch (posp)
                     {
                     case 0 ... 26:
-                        pProp = new Prop(rand() % 561 + 40, rand() % 701 + 50, 1, 2);
+                        pProp = new Prop(rand() % 561 + 40, rand() % 701 + 50, 1, 1);
                         break;
                     case 27 ... 52:
                         pProp = new Prop(rand() % 561 + 40, rand() % 701 + 50, 1, 2);
@@ -301,17 +301,25 @@ HOMEMENU:
                         ++bulletIter;
                     }
                 }
-              
+                if (Timer())
+                {
+                    for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();){
+                        pBulletEnemy = new BulletEnemy((*eplaneIter)->getX() + 23, (*eplaneIter)->getY() + 50, 0.062, 1);
+                        bulletEnemyList.push_back(pBulletEnemy);
+                        ++eplaneIter;
+                    }
+                        
+                }
                 // 画敌机，对敌机位置和我方位置进行判断
                 for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
                 {
                     (*eplaneIter)->draw((*eplaneIter)->getM());
                     (*eplaneIter)->move();
-                    if(Timer())
+                    /* if(Timer())
                     {
-                    pBulletEnemy = new BulletEnemy((*eplaneIter)->getX() + 23, (*eplaneIter)->getY() + 50, 0.1, 1);
+                    pBulletEnemy = new BulletEnemy((*eplaneIter)->getX() + 23, (*eplaneIter)->getY() + 50, 0.062, 1);
                     bulletEnemyList.push_back(pBulletEnemy);
-                    }
+                    } */
                      for(auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)        
                     {
                     (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
@@ -343,16 +351,25 @@ HOMEMENU:
                     }
                 }
 
-                    for(auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)        
-                    {
-                    (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
-                    (*bulletEnemyIter)->moveBulletEnemy();
-                    ++bulletEnemyIter;
-                    }
-
                 for (auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)
                 {
-                    if ((*bulletEnemyIter)->getY() > 810)
+                    (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
+                    (*bulletEnemyIter)->moveBulletEnemy();
+                    if (planeEP(playerPlane->getX(), playerPlane->getY(), playerPlane->getX() + 46, playerPlane->getY() + 40, (*bulletEnemyIter)->getX()-5, (*bulletEnemyIter)->getY()-5, (*bulletEnemyIter)->getX() + 5, (*bulletEnemyIter)->getY() + 5))
+                    {
+                        delete *bulletEnemyIter;
+                        bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
+                        if (playerPlane->getinvincible() == false)
+                        {
+                            a = 1;
+                        }
+                        else
+                        {
+                            playerPlane->setinvincible(false);
+                            ++bulletEnemyIter;
+                        }
+                    }
+                    else if ((*bulletEnemyIter)->getY() > 820) // 判断敌机是否飞出屏幕
                     {
                         delete *bulletEnemyIter;
                         bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
@@ -371,7 +388,9 @@ HOMEMENU:
                     b = 0;
                     // 清空敌机列表
                     eplaneList.clear();
+                    // 清空道具列表
                     propList.clear();
+                    bulletEnemyList.clear();
                     stage.home = 1;
                     stage.game = 0;
                     putimage(0, 0, &startImage);
@@ -379,6 +398,15 @@ HOMEMENU:
                     {
                         eplaneIter = eplaneList.erase(eplaneIter);
                         if (eplaneIter == eplaneList.end())
+                        {
+                            break;
+                        }
+                        break;
+                    }
+                    for (auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end(); bulletEnemyIter++)
+                    {
+                        bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
+                        if (bulletEnemyIter == bulletEnemyList.end())
                         {
                             break;
                         }
