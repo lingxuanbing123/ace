@@ -68,13 +68,14 @@ int main()
     loadimage(&startImage, "D:\\Git warehouse\\github\\ace\\rs\\start.bmp");
     loadimage(&pauseImage, "D:\\Git warehouse\\github\\ace\\rs\\pause.bmp");
     loadimage(&gameImage, "D:\\Git warehouse\\github\\ace\\rs\\game.bmp"); 
-    loadimage(&chooseImage, "D:\\Git warehouse\\github\\ace\\rs\\choose.bmp");
+    loadimage(&chooseImage, "D:\\Git warehouse\\github\\ace\\rs\\choose.png");
     loadimage(&winImage,"D:\\Git warehouse\\github\\ace\\rs\\win.png");// 加载五个背景图
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
     list<Prop *> propList;                                //创建链表以记录道具
-    Bullet *pBullet = nullptr;                            // 创建迭代器
+    Bullet *pBullet1 = nullptr;                            // 创建迭代器
+    Bullet *pBullet2 = nullptr;
     PlaneEnemy *ePlane = nullptr;
     Prop *pProp = nullptr;
 
@@ -89,8 +90,9 @@ int main()
     CoverButton.button_level1 = 0;
     CoverButton.button_level2 = 0; 
     CoverButton.button_choose1 = 0;
-    CoverButton.button_choose2 = 0;// 初始化参数
+    CoverButton.button_choose2 = 0;
     int a;
+    int sp;
     int prop1 = 0,prop2=0;
     int flag = 0;      // 当前关卡进度，初始为0，第一关达到30胜利，第二关达到30产生BOSS
 
@@ -99,35 +101,44 @@ HOMEMENU:
     {
         a = 0;
         MouseListener();     // 获取鼠标
-        if(stage.choose == 1)    
+
+          
+        
+        while(stage.choose == 1)
         {
             putimage(0,0,&chooseImage);
-            MouseListener(); 
-            stage.choose = 0;
-            stage.game1 = 1;
+            MouseListener();      
+            stage.game1 = 1;      
         }
-        if(stage.choose == 2)    
+        while(stage.choose == 2)
         {
             putimage(0,0,&chooseImage);
-            MouseListener(); 
-            stage.choose = 0;
-            stage.game2 = 1;
+            MouseListener();      
+            stage.game2 = 1;      
         }
 
 
         if (stage.game1 == 1) // 如果按到level1则进入关卡1
         {
             putimage(0, 0, &gameImage);                  // 绘制游戏背景
-            Plane *playerPlane = new Plane(320, 760, 5); // 创建玩家飞机对象
-
-            if(choose = 1)
+            if(CoverButton.button_choose1 == 1)
+            {
+                sp = 6;
+            }                         
+            if(CoverButton.button_choose2 == 1)
+            {
+                sp = 3;
+            }
+            Plane *playerPlane = new Plane(320, 760, sp); // 创建玩家飞机对象
+            if(CoverButton.button_choose1 == 1)
             {
                 playerPlane->draw1();
             }                         
-            if(choose = 2)
+            if(CoverButton.button_choose2 == 1)
             {
                 playerPlane->draw2();
-            }
+            } 
+ 
 
             while (1) // 玩家飞机开始操作
             {
@@ -212,14 +223,15 @@ HOMEMENU:
                     propList.push_back(pProp);
                 }
 
-            if(choose = 1)
+            if(CoverButton.button_choose1 == 1)
             {
                 playerPlane->draw1();
             }                         
-            if(choose = 2)
+            if(CoverButton.button_choose2 == 1)
             {
                 playerPlane->draw2();
-            }
+            } 
+
 
 
 
@@ -229,8 +241,18 @@ HOMEMENU:
                     playerPlane->move(key);         // 移动玩家飞机
                     if (GetAsyncKeyState(VK_SPACE)) // 创建子弹
                     {
-                        pBullet = new Bullet(playerPlane->getX() + 28, playerPlane->getY() - 10, 1, 5);
-                        bulletList.push_back(pBullet);
+                        if(CoverButton.button_choose1 == 1)
+                        {
+                            pBullet1 = new Bullet(playerPlane->getX() + 28, playerPlane->getY() - 10, 1, 5);
+                            bulletList.push_back(pBullet1);
+                        }
+                        else if(CoverButton.button_choose2 == 1)
+                        {
+                            pBullet1 = new Bullet(playerPlane->getX() + 38, playerPlane->getY() - 10, 1, 5);
+                            bulletList.push_back(pBullet1);
+                            pBullet2 = new Bullet(playerPlane->getX() + 8, playerPlane->getY() - 10, 1, 5);
+                            bulletList.push_back(pBullet2);
+                        }
                     }
                 }
 
@@ -369,17 +391,26 @@ HOMEMENU:
         else if (stage.game2 == 1)
         {
             putimage(0, 0, &gameImage);                  // 绘制游戏背景
-            Plane *playerPlane = new Plane(320, 760, 5); // 创建玩家飞机对象
+
+            if(CoverButton.button_choose1 == 1)
+            {
+                sp = 6;
+            }                         
+            if(CoverButton.button_choose2 == 1)
+            {
+                sp = 3;
+            }
+            Plane *playerPlane = new Plane(320, 760, sp); // 创建玩家飞机对象
             EnemyBoss *enemyBoss = new EnemyBoss(70, 0); //创建BOSS对象
  
-             if(choose = 1)
+            if(CoverButton.button_choose1 == 1)
             {
                 playerPlane->draw1();
             }                         
-            if(choose = 2)
+            if(CoverButton.button_choose2 == 1)
             {
                 playerPlane->draw2();
-            }
+            } 
 
 
             while (1) // 玩家飞机开始操作
@@ -447,15 +478,14 @@ HOMEMENU:
                     propList.push_back(pProp);
                 }
 
-            if(choose = 1)
+            if(CoverButton.button_choose1 == 1)
             {
                 playerPlane->draw1();
             }                     
-            if(choose = 2)
+            if(CoverButton.button_choose2 == 1)
             {
                 playerPlane->draw2();
-            }
-            playerPlane->draw1();
+            } 
 
                 if (_kbhit())
                 {
@@ -463,8 +493,18 @@ HOMEMENU:
                     playerPlane->move(key);         // 移动玩家飞机
                     if (GetAsyncKeyState(VK_SPACE)) // 创建子弹
                     {
-                        pBullet = new Bullet(playerPlane->getX() + 28, playerPlane->getY() - 10, 1, 5);
-                        bulletList.push_back(pBullet);
+                        if(CoverButton.button_choose1 == 1)
+                        {
+                            pBullet1 = new Bullet(playerPlane->getX() + 28, playerPlane->getY() - 10, 1, 5);
+                            bulletList.push_back(pBullet1);
+                        }
+                        else if(CoverButton.button_choose2 == 1)
+                        {
+                            pBullet1 = new Bullet(playerPlane->getX() + 38, playerPlane->getY() - 10, 1, 5);
+                            bulletList.push_back(pBullet1);
+                            pBullet2 = new Bullet(playerPlane->getX() + 8, playerPlane->getY() - 10, 1, 5);
+                            bulletList.push_back(pBullet2);
+                        }
                     }
                 }
 
@@ -482,7 +522,7 @@ HOMEMENU:
                 }
 
                 //BOSS出现
-                if(flag >= 1)
+                if(flag >= 10)
                 {
                     enemyBoss->draw(); // 绘制BOSS
                 }
@@ -495,6 +535,8 @@ HOMEMENU:
                         (*bulletIter)->moveBullet();
 
                         bool bulletRemoved = false;
+
+
                         for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
                         {
                             if (planeEP((*bulletIter)->getX() , (*bulletIter)->getY() , (*bulletIter)->getX() + 8, (*bulletIter)->getY() + 8, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
@@ -527,6 +569,27 @@ HOMEMENU:
                                 ++eplaneIter;
                             }
                         }
+/* 
+                      if(planeEP((*bulletIter)->getX(),(*bulletIter)->getY(),(*bulletIter)->getX()+8,(*bulletIter)->getY()+8,enemyBoss->getX(), enemyBoss->getY(), enemyBoss->getX() + 560, enemyBoss->getY() + 250))
+                    {
+                        enemyBoss->setHealth(enemyBoss->getHealth() - 1);
+                        if(enemyBoss->getHealth()<=0)
+                        {
+                            flag = 0;
+                            // 清空子弹列表
+                            bulletList.clear();
+                            // 清空敌机列表
+                            eplaneList.clear();
+                            // 进入胜利界面
+                            putimage(0, 0, &winImage);
+                            Sleep(3000);
+                            stage.game1 = 0;
+                            stage.home = 1;
+                            putimage(0, 0, &startImage); // 绘制菜单背景
+                            goto HOMEMENU;               // 跳出循环回到主菜单 
+                        }
+                    }   */
+
 
                         if (!bulletRemoved)
                         {

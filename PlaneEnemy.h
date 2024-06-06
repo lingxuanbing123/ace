@@ -36,7 +36,7 @@ public:
 	double &getY();
 	int getHealth() const; // ����Ѫ��  
     void setHealth(int health); // ����Ѫ��      
-	int health = 100;    //       С�ɻ�Ѫ��Ϊ4
+	int health = 10;    //       С�ɻ�Ѫ��Ϊ4
 protected:
 	IMAGE planeEnemy3, planeEnemy32;
 private:

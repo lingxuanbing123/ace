@@ -120,10 +120,10 @@ void MouseListener(void) {
 
 
 
-	if(MouseHit() && stage.choose == 1 || stage.choose == 2){            
+	if(MouseHit() && (stage.choose == 1 || stage.choose == 2)){            
 		m = GetMouseMsg();                              
 		switch (m.uMsg){
-			case WM_LBUTTONDOWN:
+/* 			case WM_LBUTTONDOWN:
 				if(CHOOSE1_SCOPE){
 					CoverButton.button_choose1 = 1;
 				}
@@ -136,15 +136,17 @@ void MouseListener(void) {
 				else{
 					CoverButton.button_choose2 = 0;
 				}
-			break;
+			break; */
 			case WM_LBUTTONUP: 
 				if(CHOOSE1_SCOPE){
-					CoverButton.button_choose1 = 0;
-					choose = 1;
+					CoverButton.button_choose1 = 1;
+					CoverButton.button_choose2 = 0;
+					stage.choose = 0;
 				}
 				else if(CHOOSE2_SCOPE){
-					CoverButton.button_choose2 = 0;
-					choose = 2;
+					CoverButton.button_choose2 = 1;
+					CoverButton.button_choose1 = 0;
+					stage.choose = 0;
 				}
 			break;
 		}

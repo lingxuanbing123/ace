@@ -11,7 +11,7 @@ public:
     void playerPlane_accelerator(bool z); // 加速
     void playerPlane_shield(bool z);  //护盾
     void draw1();         // 绘制飞机1
-    void draw2();         // 绘制飞机2
+    void draw2();         // 绘制飞机2 
     void move(char key); // 移动飞机，根据按键响应
     int &getX();        // 获取x
     int &getY();        // 获取y

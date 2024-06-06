@@ -108,7 +108,7 @@ struct Stage  //当前状态判定    使用0 1
     int game1;  //关卡1中
     int game2;  //关卡2中
     int home;   //主菜单
-    int choose;  //飞机选择
+    int choose; 
 };
 struct CoverButton    //按钮绘制 亮或者熄 使用0 1
 {
