@@ -84,9 +84,9 @@ int main()
     srand((unsigned int)time(NULL)); // 随机数初始化
     IMAGE startImage, pauseImage, gameImage, plane1, plane2, planeEnemy1, planeEnemy2, boss, bullet, bulletEnemy;
     initgraph(640, 800);
-    loadimage(&startImage, "E:\\test\\ace\\rs\\start.bmp");
-    loadimage(&pauseImage, "E:\\test\\ace\\rs\\pause.bmp");
-    loadimage(&gameImage, "E:\\test\\ace\\rs\\game.bmp"); // 加载三个背景图
+    loadimage(&startImage, "D:\\git0\\ace\\rs\\start.bmp");
+    loadimage(&pauseImage, "D:\\git0\\ace\\rs\\pause.bmp");
+    loadimage(&gameImage, "D:\\git0\\ace\\rs\\game.bmp"); // 加载三个背景图
     putimage(0, 0, &startImage);                          // 初始化第一个背景图
     list<Bullet *> bulletList;                            // 创建链表以记录子弹
     list<PlaneEnemy *> eplaneList;                        // 创建链表以记录敌机
@@ -111,11 +111,11 @@ int main()
 HOMEMENU:
     while (!CoverButton.button_quit) // 只要没有按到QUIT
     {
-        if (0 == PlaySound(TEXT("D:\\git0\\ace\\rs\\music\\test.wav"), NULL, SND_FILENAME | SND_ASYNC))
+/*         if (0 == PlaySound(TEXT("D:\\git0\\ace\\rs\\music\\test.wav"), NULL, SND_FILENAME | SND_ASYNC))
         {
             printf("playsound false");
         }
-        system("pause");
+        system("pause"); */
         a = 0;
         s = 0;
         MouseListener();     // 获取鼠标
@@ -166,25 +166,6 @@ HOMEMENU:
                     {
                     case 0 ... 49:
                         {ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
-/* while(1){
-                    if(Timer(500))
-                    {
-    pBulletEnemy = new BulletEnemy(enemyPlane->getX() + 23, enemyPlane->getY() + 10, 4, 1);
-    bulletEnemyList.push_back(pBulletEnemy);
-      for (auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)
-                {
-                    if ((*bulletEnemyIter)->getY() > 810)
-                    {
-                        delete *bulletEnemyIter;
-                        bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
-                    }
-                    else
-                    {
-                        ++bulletEnemyIter;
-                    }
-                }
-                    }
-                    } */
                         break;}
                     case 50:
                     case 51:
@@ -336,12 +317,7 @@ HOMEMENU:
                     (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
                     (*bulletEnemyIter)->moveBulletEnemy();
                     ++bulletEnemyIter;
-                    }
-
-                  
-                   
-            
-            
+                    }   
                     if (planeEP(playerPlane->getX(), playerPlane->getY(), playerPlane->getX() + 46, playerPlane->getY() + 40, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
                     {
                         delete *eplaneIter;

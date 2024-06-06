@@ -38,8 +38,8 @@ Plane::Plane() // 飞机获取相关参数
     this->x = x;
     this->y = y;
     this->speed = speed;
-    loadimage(&plane1, "E:\\test\\ace\\rs\\image\\1.png");
-    loadimage(&plane12, "E:\\test\\ace\\rs\\image\\12.png");
+    loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
+    loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
 }
 
 Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
@@ -47,8 +47,8 @@ Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
     this->x = x;
     this->y = y;
     this->speed = speed;
-    loadimage(&plane1, "E:\\test\\ace\\rs\\image\\1.png");
-    loadimage(&plane12, "E:\\test\\ace\\rs\\image\\12.png");
+    loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
+    loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
 }
 void Plane::draw()
 {
