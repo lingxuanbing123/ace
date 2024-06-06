@@ -14,7 +14,7 @@ public:
 	double getHealth() const;	   // ?
 	void setHealth(double health); // ?
 	double health1 = 4;			   //       ????4
-	int health2 = 4;
+	int health2 = 8;
 protected:
 	IMAGE planeEnemy1, planeEnemy12, planeEnemy2, planeEnemy22,planeEnemy3, planeEnemy32;
 private:
@@ -44,21 +44,3 @@ private:
 	double  x=0, y=0;
 };
 
-
-class Meteorite
-{
-public:
-	// ?
-	Meteorite(); // ?
-	Meteorite(double mx, double my, double speed);
-	void draw_meteorite(); // ?
-	void meteoriteMove();  // ??
-	double &getMX();
-	double &getMY();
-	double &getMSpeed();
-
-private:
-	COLORREF color; // ??
-	double mx , my ;
-	double speed;
-};

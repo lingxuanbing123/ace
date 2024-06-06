@@ -22,10 +22,10 @@ PlaneEnemy::PlaneEnemy(double x, double y, double speed,int m)
     this->y = y;
     this->speed = speed;
     this->m = m;
-    loadimage(&planeEnemy1, "D:\\Git warehouse\\github\\ace\\rs\\image\\3.png");
-    loadimage(&planeEnemy12, "D:\\Git warehouse\\github\\ace\\rs\\image\\32.png");
-    loadimage(&planeEnemy2, "D:\\Git warehouse\\github\\ace\\rs\\image\\4.png");
-    loadimage(&planeEnemy22, "D:\\Git warehouse\\github\\ace\\rs\\image\\42.png");
+    loadimage(&planeEnemy1, "D:\\git0\\ace\\rs\\image\\3.png");
+    loadimage(&planeEnemy12, "D:\\git0\\ace\\rs\\image\\32.png");
+    loadimage(&planeEnemy2, "D:\\git0\\ace\\rs\\image\\4.png");
+    loadimage(&planeEnemy22, "D:\\git0\\ace\\rs\\image\\42.png");
 }
 void PlaneEnemy::draw(int m)
 {
@@ -97,16 +97,16 @@ EnemyBoss::EnemyBoss()
 	color = RGB(0,255,0); 
     this->x = x;
     this->y = y;
-    loadimage(&planeEnemy3, "D:\\Git warehouse\\github\\ace\\rs\\image\\5.png");
-    loadimage(&planeEnemy32, "D:\\Git warehouse\\github\\ace\\rs\\image\\52.png");
+    loadimage(&planeEnemy3, "D:\\git0\\ace\\rs\\image\\5.png");
+    loadimage(&planeEnemy32, "D:\\git0\\ace\\rs\\image\\52.png");
 }
 
 EnemyBoss::EnemyBoss(double x, double y)  
 {
     this->x = x;
     this->y = y;
-    loadimage(&planeEnemy3, "D:\\Git warehouse\\github\\ace\\rs\\image\\5.png");
-    loadimage(&planeEnemy32, "D:\\Git warehouse\\github\\ace\\rs\\image\\52.png");
+    loadimage(&planeEnemy3, "D:\\git0\\ace\\rs\\image\\5.png");
+    loadimage(&planeEnemy32, "D:\\git0\\ace\\rs\\image\\52.png");
 }
 void EnemyBoss::draw()
 {
@@ -132,56 +132,3 @@ void EnemyBoss::setHealth(int newHealth)
 { 
      health = newHealth; 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Meteorite::Meteorite()
-{
-
-    color = RGB(128,128,128);   
-    this->mx = mx;
-    this->my = my;
-    this->speed = speed;
-}
-Meteorite::Meteorite(double mx, double my, double speed)
-{
-
-    color = RGB(128, 128, 128);
-    this->mx = mx;
-    this->my = my;
-    this->speed = speed;
-}
-void Meteorite::draw_meteorite()
-{
-    setfillcolor(color);
-    circle(mx, my, 20);
-}
-
-void Meteorite::meteoriteMove()
-{
-    this->my += (this->speed) / 5;
-}
-
-double &Meteorite::getMX()
-{
-    return mx;
-}
-double &Meteorite::getMY()
-{
-    return my;
-}
-double &Meteorite::getMSpeed()
-{
-    return speed;
-} */
