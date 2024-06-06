@@ -9,12 +9,14 @@
 #define LEVEL2_SCOPE (m.x >=223 && m.x <= 419 && m.y >=481 && m.y <= 551)//主菜单界面关卡2
 #define CONTINUE_SCOPE (m.x >=140 && m.x <= 509 && m.y >= 183 && m.y <= 267)//暂停界面继续游戏
 #define HOME_SCOPE (m.x >=140 && m.x <= 509  && m.y >= 365 && m.y <= 449)//暂停界面返回主菜单
+#define CHOOSE1_SCOPE (m.x >=108 && m.x <= 252 && m.y >= 552 && m.y <= 600)//选择界面选择飞机一
+#define CHOOSE2_SCOPE (m.x >=400 && m.x <= 544 && m.y >= 552 && m.y <= 600)//选择界面选择飞机二
 
 //获取键盘事件
 int GetCommand(void);
 //获取鼠标事件
 void MouseListener(void);
-
+int choose;
 /*鼠标信息结构体
 struct MOUSEMSG
 {

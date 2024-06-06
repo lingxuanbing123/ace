@@ -5,16 +5,16 @@ Bullet::Bullet()        //赋予子弹xys，或将子弹xys获取
     this->x = x;
     this->y = y;
     this->speed = speed;
-    loadimage(&bu1, "D:\\git0\\ace\\rs\\image\\bu1.png");
-    loadimage(&bu12, "D:\\git0\\ace\\rs\\image\\bu12.png");
+    loadimage(&bu1, "D:\\Git warehouse\\github\\ace\\rs\\image\\bu1.png");
+    loadimage(&bu12, "D:\\Git warehouse\\github\\ace\\rs\\image\\bu12.png");
 }
 Bullet::Bullet(double x, double y, double speed, double i)  //赋予子弹xys，或将子弹xys获取
 {
     this->x = x;
     this->y = y;
     this->speed = speed;
-    loadimage(&bu1, "D:\\git0\\ace\\rs\\image\\bu1.png");
-    loadimage(&bu12, "D:\\git0\\ace\\rs\\image\\bu12.png");
+    loadimage(&bu1, "D:\\Git warehouse\\github\\ace\\rs\\image\\bu1.png");
+    loadimage(&bu12, "D:\\Git warehouse\\github\\ace\\rs\\image\\bu12.png");
 }
 void Bullet::drawBullet(double x, double y) // 绘制子弹,己方子弹为蓝色实心圆
 {

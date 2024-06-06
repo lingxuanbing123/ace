@@ -105,8 +105,10 @@ typedef struct Boom
 struct Stage  //当前状态判定    使用0 1
 {
     int pause;  //暂停
-    int game;  //游戏中
-    int home;  //主菜单
+    int game1;  //关卡1中
+    int game2;  //关卡2中
+    int home;   //主菜单
+    int choose;  //飞机选择
 };
 struct CoverButton    //按钮绘制 亮或者熄 使用0 1
 {
@@ -115,6 +117,8 @@ struct CoverButton    //按钮绘制 亮或者熄 使用0 1
     int button_quit;
     int button_continue;
     int button_home;
+    int button_choose1;
+    int button_choose2;
 };
 
 struct FRAME

@@ -9,37 +9,16 @@
 #include <thread>
 #include "Game.h"
 
-/* auto hitTime = std::chrono::steady_clock::now(); // 记录时间
-void Plane::playerPlane_accelerator(bool z)          //加速效果：移速增加
-{
-    if(this->speed<=20)
-    setSpeed();
-} */
-/* void Plane::playerPlane_shield(bool z) // 护盾效果：五秒无敌
-{
-    while (true)
-    {
-        invincible = true;             // 己方飞机被击中，进入无敌状态
-        hitTime = std::chrono::steady_clock::now(); // 更新被击中时间
-        if (invincible)
-        {
-            auto now = std::chrono::steady_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - hitTime);
-            if (duration.count() >= 5)
-            {
-                invincible = false; // 超过5秒，取消己方飞机的无敌状态
-            }
-        }
-    }
-} */
 Plane::Plane() // 飞机获取相关参数
 {
     /*     color = RGB(255, 0, 0); // 设置飞机颜色为红色 */
     this->x = x;
     this->y = y;
     this->speed = speed;
-    loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
-    loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
+    loadimage(&plane1, "D:\\Git warehouse\\github\\ace\\rs\\image\\1.png");
+    loadimage(&plane12, "D:\\Git warehouse\\github\\ace\\rs\\image\\12.png");
+    loadimage(&plane1, "D:\\Git warehouse\\github\\ace\\rs\\image\\2.png");
+    loadimage(&plane12, "D:\\Git warehouse\\github\\ace\\rs\\image\\22.png");
 }
 
 Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
@@ -47,21 +26,20 @@ Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
     this->x = x;
     this->y = y;
     this->speed = speed;
-    loadimage(&plane1, "D:\\git0\\ace\\rs\\image\\1.png");
-    loadimage(&plane12, "D:\\git0\\ace\\rs\\image\\12.png");
+    loadimage(&plane1, "D:\\Git warehouse\\github\\ace\\rs\\image\\1.png");
+    loadimage(&plane12, "D:\\Git warehouse\\github\\ace\\rs\\image\\12.png");
+    loadimage(&plane1, "D:\\Git warehouse\\github\\ace\\rs\\image\\2.png");
+    loadimage(&plane12, "D:\\Git warehouse\\github\\ace\\rs\\image\\22.png");
 }
-void Plane::draw()
+void Plane::draw1()
 {
-    // 绘制飞机的矩形身体
-    /*     setfillcolor(color); */
-    /*     solidrectangle(this->x - 20, this->y, this->x + 20, this->y + 30);
-
-        // 绘制飞机的两个引擎
-        setfillcolor(RGB(0, 0, 255));                                          // 设置引擎颜色为蓝色
-        solidrectangle(this->x - 10, this->y + 30, this->x - 5, this->y + 40); // 左引擎
-        solidrectangle(this->x + 5, this->y + 30, this->x + 10, this->y + 40); // 右引擎 */
     putimage(this->x, this->y, &plane12, SRCAND);
     putimage(this->x, this->y, &plane1, SRCPAINT);
+}
+void Plane::draw2()
+{
+    putimage(this->x, this->y, &plane22, SRCAND);
+    putimage(this->x, this->y, &plane2, SRCPAINT);
 }
 
 void Plane::move(char key) // 移动相关函数，后续如有必要可改成其他方式
