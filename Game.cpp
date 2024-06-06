@@ -26,6 +26,8 @@ using namespace std;
 #include "Plane.h"
 #include "Operate.h"
 
+#pragma comment(lib, "winmm.lib")
+
 typedef int SOUND;
 
 Boom *pBoom;
@@ -93,6 +95,11 @@ int main()
 HOMEMENU:
     while (!CoverButton.button_quit) // 只要没有按到QUIT
     {
+        if (0 == PlaySound(TEXT("D:\\git0\\ace\\rs\\music\\test.wav"), NULL, SND_FILENAME | SND_ASYNC))
+        {
+            printf("playsound false");
+        }
+        system("pause");
         a = 0;
         s = 0;
         MouseListener();     // 获取鼠标
