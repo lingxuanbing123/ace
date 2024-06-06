@@ -5,6 +5,7 @@ Bullet::Bullet()        //赋予子弹xys，或将子弹xys获取
     this->x = x;
     this->y = y;
     this->speed = speed;
+    this->harm = harm;
     loadimage(&bu1, "D:\\git0\\ace\\rs\\image\\bu1.png");
     loadimage(&bu12, "D:\\git0\\ace\\rs\\image\\bu12.png");
 }
@@ -13,6 +14,7 @@ Bullet::Bullet(double x, double y, double speed, double i)  //赋予子弹xys，
     this->x = x;
     this->y = y;
     this->speed = speed;
+    this->harm = harm;
     loadimage(&bu1, "D:\\git0\\ace\\rs\\image\\bu1.png");
     loadimage(&bu12, "D:\\git0\\ace\\rs\\image\\bu12.png");
 }
@@ -37,7 +39,16 @@ double &Bullet::getSpeed() // 子弹速度，参考速度为1
 {
     return speed;
 }
-double &Bullet::getI()  //子弹半径，v2应替换为贴图
+double &Bullet::getHarm()  //子弹半径，v2应替换为贴图
 {
-    return i;
+    return harm;
+}
+
+void Bullet::setHarm(int s){
+    if(s == 0){
+        harm = 1;
+    }
+    else{
+         harm = 1+1*s;
+    }
 }
