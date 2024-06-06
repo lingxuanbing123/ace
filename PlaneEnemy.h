@@ -11,14 +11,36 @@ public:
 	double &getY();
 	int &getM();
 	double &getSpeed();
-	double getHealth() const;	   // ·µ»ØÑªÁ¿
-	void setHealth(double health); // ÉèÖÃÑªÁ¿
-	double health = 4;			   //       Ğ¡·É»úÑªÁ¿Îª4
+	double getHealth() const;	   // ?
+	void setHealth(double health); // ?
+	double health1 = 4;			   //       ????4
+	int health2 = 8;
 protected:
-	IMAGE planeEnemy1, planeEnemy12, planeEnemy2, planeEnemy22;
-
+	IMAGE planeEnemy1, planeEnemy12, planeEnemy2, planeEnemy22,planeEnemy3, planeEnemy32;
 private:
 	COLORREF color = RGB(0, 255, 0);
 	double speed, x = 0, y = 0;
 	int m;
 };
+
+
+
+//??BOSS
+class EnemyBoss
+{
+public:
+	EnemyBoss();
+	EnemyBoss(double x, double y);
+	void draw(); // ??
+	double &getX();
+	double &getY();
+	int getHealth() const; // ?  
+    void setHealth(int health); // ?      
+	int health = 10;    //       ????4
+protected:
+	IMAGE planeEnemy3, planeEnemy32;
+private:
+	COLORREF color = RGB(0, 255, 0); // ??
+	double  x=0, y=0;
+};
+

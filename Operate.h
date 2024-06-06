@@ -9,6 +9,8 @@
 #define LEVEL2_SCOPE (m.x >=223 && m.x <= 419 && m.y >=481 && m.y <= 551)//主菜单界面关卡2
 #define CONTINUE_SCOPE (m.x >=140 && m.x <= 509 && m.y >= 183 && m.y <= 267)//暂停界面继续游戏
 #define HOME_SCOPE (m.x >=140 && m.x <= 509  && m.y >= 365 && m.y <= 449)//暂停界面返回主菜单
+#define CHOOSE1_SCOPE (m.x >=108 && m.x <= 256 && m.y >= 556 && m.y <= 604)
+#define CHOOSE2_SCOPE (m.x >=400 && m.x <= 548 && m.y >= 556 && m.y <= 604)
 
 //获取键盘事件
 int GetCommand(void);
