@@ -12,7 +12,9 @@
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-L",  
                 "D:\\new gcc\\lib",
-                "-leasyx"
+                "-leasyx",
+                "-lwinmm"
+
             ],
             "options": {
                 "cwd": "${fileDirname}"
