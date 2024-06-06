@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <graphics.h>
+#include <thread>
 #include <list>
 #include <ctime>
 #include <cstdlib>
@@ -33,11 +34,25 @@ typedef int SOUND;
 Boom *pBoom;
 
 Node *pBullet_E;   // 敌机子弹
-Node *enemyPlane;  // 敌机
+PlaneEnemy *enemyPlane;  // 敌机
 Node *playerPlane; // 我机
 int boss = 0;      // 是否存在boss
 struct CoverButton CoverButton;
 struct Stage stage;
+
+int Timer()
+{
+    static DWORD t1,t2;
+    while(1)
+    {if (t2-t1>63)
+    {
+        t1=t2;
+        return 1;
+    }
+    t2 = clock();
+    return 0;
+    }
+}
 
 // 碰撞检测函数
 bool planeEP(double x11, double y11, double x12, double y12, double x21, double y21, double x22, double y22);
@@ -79,7 +94,8 @@ int main()
     Bullet *pBullet = nullptr;                            // 创建迭代器
     PlaneEnemy *ePlane = nullptr;
     Prop *pProp = nullptr;
-
+    list<BulletEnemy *> bulletEnemyList;
+    BulletEnemy *pBulletEnemy=nullptr;
     stage.pause = 0; // 界面相关参数
     stage.game = 0;
     stage.home = 1;
@@ -95,11 +111,11 @@ int main()
 HOMEMENU:
     while (!CoverButton.button_quit) // 只要没有按到QUIT
     {
-        if (0 == PlaySound(TEXT("D:\\git0\\ace\\rs\\music\\test.wav"), NULL, SND_FILENAME | SND_ASYNC))
+/*         if (0 == PlaySound(TEXT("D:\\git0\\ace\\rs\\music\\test.wav"), NULL, SND_FILENAME | SND_ASYNC))
         {
             printf("playsound false");
         }
-        system("pause");
+        system("pause"); */
         a = 0;
         s = 0;
         MouseListener();     // 获取鼠标
@@ -149,8 +165,8 @@ HOMEMENU:
                     switch (pos)
                     {
                     case 0 ... 49:
-                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
-                        break;
+                        {ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
+                        break;}
                     case 50:
                     case 51:
                         ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 10 + 3, 2);
@@ -285,13 +301,23 @@ HOMEMENU:
                         ++bulletIter;
                     }
                 }
-
+              
                 // 画敌机，对敌机位置和我方位置进行判断
                 for (auto eplaneIter = eplaneList.begin(); eplaneIter != eplaneList.end();)
                 {
                     (*eplaneIter)->draw((*eplaneIter)->getM());
                     (*eplaneIter)->move();
-
+                    if(Timer())
+                    {
+                    pBulletEnemy = new BulletEnemy((*eplaneIter)->getX() + 23, (*eplaneIter)->getY() + 50, 0.1, 1);
+                    bulletEnemyList.push_back(pBulletEnemy);
+                    }
+                     for(auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)        
+                    {
+                    (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
+                    (*bulletEnemyIter)->moveBulletEnemy();
+                    ++bulletEnemyIter;
+                    }   
                     if (planeEP(playerPlane->getX(), playerPlane->getY(), playerPlane->getX() + 46, playerPlane->getY() + 40, (*eplaneIter)->getX(), (*eplaneIter)->getY(), (*eplaneIter)->getX() + 46, (*eplaneIter)->getY() + 50))
                     {
                         delete *eplaneIter;
@@ -314,6 +340,26 @@ HOMEMENU:
                     else
                     {
                         ++eplaneIter;
+                    }
+                }
+
+                    for(auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)        
+                    {
+                    (*bulletEnemyIter)->drawBulletEnemy((*bulletEnemyIter)->getX(), (*bulletEnemyIter)->getY());
+                    (*bulletEnemyIter)->moveBulletEnemy();
+                    ++bulletEnemyIter;
+                    }
+
+                for (auto bulletEnemyIter = bulletEnemyList.begin(); bulletEnemyIter != bulletEnemyList.end();)
+                {
+                    if ((*bulletEnemyIter)->getY() > 810)
+                    {
+                        delete *bulletEnemyIter;
+                        bulletEnemyIter = bulletEnemyList.erase(bulletEnemyIter);
+                    }
+                    else
+                    {
+                        ++bulletEnemyIter;
                     }
                 }
 
@@ -346,5 +392,6 @@ HOMEMENU:
 
 CLOSE:
     closegraph(); // 关闭图形界面
+
     return 0;
 }
