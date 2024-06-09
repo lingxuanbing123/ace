@@ -76,6 +76,7 @@ double PlaneEnemy::getHealth() const
         return health2;
     case 3:
         return 1;
+    default: return 1;
     }
 }
 

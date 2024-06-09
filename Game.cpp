@@ -200,8 +200,8 @@ HOMEMENU:
                     }
                 }
 
-                // 杀死三十个对方单位，游戏结束
-                if (flag >= 30)
+                // 杀死七十个对方单位，游戏结束
+                if (flag >= 70)
                 {
                     flag = 0;
                     // 清空子弹列表
@@ -245,10 +245,19 @@ HOMEMENU:
                 cleardevice();    // 清空画面
                 putimage(0, 0, &gameImage);
 
-                // 生成敌机
+                // 生成敌机 
                 if (eplaneList.size() < 5)
                 {
-                    ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 5 + 3, 1);
+                    int pos = rand() % 52; // 0-51
+                    switch (pos)
+                    {
+                    case 0 ... 44:
+                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 3 + 3, 1);
+                        break;
+                    case 45 ... 51:
+                        ePlane = new PlaneEnemy(rand() % 6 * 100 + 100, -100, rand() % 3 + 3, 2);
+                        break;
+                    }
                     eplaneList.push_back(ePlane);
                 }
 
@@ -584,7 +593,7 @@ HOMEMENU:
                 putimage(0, 0, &gameImage);
 
                 // 用随机数生成决定敌机种类 敌1：敌2：陨石=24:24:4
-                if (eplaneList.size() < 5)
+                if (eplaneList.size() < 8)
                 {
                     int pos = rand() % 52; // 0-51
                     switch (pos)
@@ -677,7 +686,7 @@ HOMEMENU:
                 }
 
                 // BOSS出现
-                if (flag >= 10)
+                if (flag >= 50)
                 {
                     if (enemyBossList.size() < 1)
                     {
