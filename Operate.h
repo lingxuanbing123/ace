@@ -16,17 +16,3 @@
 int GetCommand(void);
 //获取鼠标事件
 void MouseListener(void);
-
-/*鼠标信息结构体
-struct MOUSEMSG
-{
-	UINT uMsg;			// 当前鼠标消息
-	bool mkCtrl;		// Ctrl 键是否按下
-	bool mkShift;		// Shift 键是否按下
-	bool mkLButton;		// 鼠标左键是否按下
-	bool mkMButton;		// 鼠标中键是否按下
-	bool mkRButton;		// 鼠标右键是否按下
-	int x;				// 当前鼠标 x 坐标（物理坐标）
-	int y;				// 当前鼠标 y 坐标（物理坐标）
-	int wheel;			// 鼠标滚轮滚动值
-};*/

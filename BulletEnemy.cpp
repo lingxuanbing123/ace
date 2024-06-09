@@ -12,7 +12,7 @@ void BulletEnemy::drawBulletEnemy(double x,double y) //绘制子弹,敌方子弹
 }
 void BulletEnemy::moveBulletEnemy() //移动子弹,敌方子弹只往下移动
 {
- this->y+=this->speed;  
+    this->y+=this->speed;  
 }
 int& BulletEnemy::getX() //子弹坐标
 {
@@ -22,7 +22,7 @@ double& BulletEnemy::getY()
 {
     return y;
 }
-double& BulletEnemy::getSpeed() //子弹速度，参考速度为1
+double& BulletEnemy::getSpeed() //子弹速度
 {
     return speed;
 }

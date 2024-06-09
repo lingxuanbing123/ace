@@ -63,6 +63,7 @@
     "array": "cpp",
     "string_view": "cpp",
     "ranges": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "new": "cpp"
   }
 }

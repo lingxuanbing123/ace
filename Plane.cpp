@@ -11,7 +11,6 @@
 
 Plane::Plane() // 飞机获取相关参数
 {
-    /*     color = RGB(255, 0, 0); // 设置飞机颜色为红色 */
     this->x = x;
     this->y = y;
     this->speed = speed;
@@ -23,7 +22,7 @@ Plane::Plane() // 飞机获取相关参数
     loadimage(&plane22, "D:\\git0\\ace\\rs\\image\\22.png");
 }
 
-Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
+Plane::Plane(int x, int y, int speed) // 飞机获取相关参数
 {
     this->x = x;
     this->y = y;
@@ -35,26 +34,26 @@ Plane::Plane(int x, int y, int speed) // 从飞机获取相关参数
     loadimage(&plane2, "D:\\git0\\ace\\rs\\image\\2.png");
     loadimage(&plane22, "D:\\git0\\ace\\rs\\image\\22.png");
 }
- void Plane::draw1()
+void Plane::draw1()
 {
     putimage(this->x, this->y, &plane12, SRCAND);
     putimage(this->x, this->y, &plane1, SRCPAINT);
     if (invincible)
     {
-        putimage(this->x, this->y, &dun2, SRCAND);
-        putimage(this->x, this->y, &dun1, SRCPAINT);
+        putimage(this->x - 2, this->y - 5, &dun2, SRCAND);
+        putimage(this->x - 2, this->y - 5, &dun1, SRCPAINT);
     }
 }
 void Plane::draw2()
 {
     putimage(this->x, this->y, &plane22, SRCAND);
     putimage(this->x, this->y, &plane2, SRCPAINT);
-    if (invincible) {
-        putimage(this->x, this->y, &dun2, SRCAND);
-        putimage(this->x, this->y,&dun1, SRCPAINT);
+    if (invincible)
+    {
+        putimage(this->x - 2, this->y - 5, &dun2, SRCAND);
+        putimage(this->x - 2, this->y - 5, &dun1, SRCPAINT);
     }
-
-} 
+}
 
 void Plane::move(char key) // 移动相关函数，后续如有必要可改成其他方式
 {
@@ -97,9 +96,11 @@ int &Plane::setSpeed()
     speed += 2;
     return speed;
 }
-bool &Plane::getinvincible(){
+bool &Plane::getinvincible() // 护盾状态获取
+{
     return invincible;
 }
-void Plane::setinvincible(bool z){
-        invincible = z;
+void Plane::setinvincible(bool z)
+{
+    invincible = z;
 }
